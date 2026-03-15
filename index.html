@@ -410,7 +410,6 @@
   <main>
     <div class="banner">
       <div class="badge">☘️ Special Delivery</div>
-      <div class="badge">📅 <span id="current-date"></span></div>
       <div class="header-controls">
         <button class="btn-icon" id="musicBtn" onclick="toggleAudio()">🎻 Music: Off</button>
       </div>
@@ -470,7 +469,7 @@
     </section>
 
     <footer>
-      Made with ☘️ + ❤️ by Kay Freeman
+      Made with ☘️ + ❤️ by Kay Thomas
     </footer>
   </main>
 
@@ -486,9 +485,6 @@
       ]
     };
 
-    // Initialize Page Elements
-    document.getElementById('current-date').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
-    
     // Smooth title fade-in
     window.addEventListener('load', () => {
       document.getElementById('headerGroup').classList.add('visible');
