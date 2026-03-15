@@ -44,6 +44,31 @@
       z-index: 0;
     }
 
+    /* CSS Confetti Styles */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      top: -50px;
+      font-size: 24px;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+
     main{
       max-width: 1100px;
       margin: 0 auto;
@@ -286,6 +311,7 @@
 
 <body>
   <div class="bg-overlay"></div>
+  <div id="confetti-container" class="confetti-container"></div>
 
   <div class="modal-overlay" id="liveFeedModal">
     <div class="modal-content">
@@ -355,7 +381,7 @@
     </section>
 
     <footer>
-      Made with ☘️ + ❤️ by Kay Thomas
+      Made with ☘️ + ❤️ by Kay Freeman
     </footer>
   </main>
 
@@ -381,22 +407,35 @@
       setTimeout(fireCloverConfetti, 500);
     });
 
-    // --- Confetti Logic ---
+    // --- Fixed Confetti Logic (Native CSS for reliability) ---
     function fireCloverConfetti() {
-      // Check if library is available
-      if (typeof confetti !== 'function') return;
+      const container = document.getElementById('confetti-container');
+      const symbols = ['🍀', '☘️'];
+      const count = 40;
 
-      const clover = confetti.shapeFromText({ text: '🍀' });
-      const shamrock = confetti.shapeFromText({ text: '☘️' });
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        
+        // Randomize placement and animation
+        const startX = Math.random() * 100;
+        const duration = 2 + Math.random() * 3;
+        const delay = Math.random() * 2;
+        const size = 16 + Math.random() * 20;
 
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.6 },
-        shapes: [clover, shamrock],
-        scalar: 2,
-        colors: ['#1fb56a', '#ffffff', '#d7b65b']
-      });
+        piece.style.left = startX + 'vw';
+        piece.style.animationDuration = duration + 's';
+        piece.style.animationDelay = delay + 's';
+        piece.style.fontSize = size + 'px';
+
+        container.appendChild(piece);
+
+        // Clean up piece after animation finishes
+        setTimeout(() => {
+          piece.remove();
+        }, (duration + delay) * 1000);
+      }
     }
 
     // --- Audio Controller ---
