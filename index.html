@@ -5,69 +5,42 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Happy Birthday Aunt Tricia! 🍀</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
-
   <style>
     :root{
-      --bg-dark: #041e15;
-      --bg-gradient: linear-gradient(135deg, #041e15 0%, #0a3d2e 100%);
-      --emerald-light: #1fb56a;
-      --emerald-dark: #0ea85a;
-      --gold-bright: #f1d78a;
-      --gold-deep: #d7b65b;
-      --paper-tint: #fffcf5;
-      --ink: #102018;
-      --env-color: #f3e5ab;
-      --env-dark: #e6d58e;
+      --bg1:#052b1f;
+      --bg2:#0b5b3f;
+      --paper:#fff9ef;
+      --ink:#102018;
+      --gold:#d7b65b;
+      --gold2:#f1d78a;
+      --green:#1fb56a;
+      --green2:#0ea85a;
     }
-
     *{ box-sizing:border-box; }
     html,body{ height:100%; margin:0; }
-    
     body{
-      font-family: 'Quicksand', sans-serif;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       color: var(--ink);
-      background: var(--bg-gradient);
+      background: linear-gradient(140deg, var(--bg1), var(--bg2));
       overflow-x:hidden;
-      display: flex;
-      flex-direction: column;
       min-height: 100vh;
     }
 
-    .bg-overlay {
-      position: fixed; inset: 0;
-      background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
-      opacity: 0.3; pointer-events: none;
-      z-index: 0;
-    }
-
-    .confetti-container {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
     main{
-      max-width: 1100px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 28px 18px 60px;
       position:relative;
-      z-index: 10;
-      width: 100%;
+      z-index: 1;
     }
 
     .banner{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:15px;
-      margin-bottom: 30px;
+      gap:12px;
+      color: rgba(255,255,255,.92);
+      padding: 10px 6px 18px;
       flex-wrap:wrap;
     }
 
@@ -75,139 +48,95 @@
       display:inline-flex;
       align-items:center;
       gap:10px;
-      padding: 10px 18px;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 50px;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(10px);
-      color: white;
-      font-weight: 600;
-    }
-
-    .btn-icon {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: white;
-      padding: 8px 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 600;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(8px);
+      font-weight: 650;
     }
 
     .card{
       position:relative;
-      border-radius: 30px;
-      background: var(--paper-tint);
-      box-shadow: 0 50px 100px rgba(0,0,0,0.5);
-      border: 8px solid white;
-      min-height: 700px;
+      border-radius: 22px;
+      background: var(--paper);
+      box-shadow: 0 30px 70px rgba(0,0,0,.35);
+      overflow:hidden;
     }
 
     .card-inner{
+      padding: 34px 22px;
       display:grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 18px;
     }
+    @media (max-width: 860px){ .card-inner{ grid-template-columns: 1fr; } }
 
-    @media (max-width: 900px){
-      .card-inner{ grid-template-columns: 1fr; }
+    .title{ margin:0 0 12px; line-height:1.08; }
+    .title .en{ font-size: clamp(34px, 4.4vw, 54px); font-weight: 900; }
+    .title .ga{ display:block; margin-top: 6px; font-size: 20px; color: var(--green2); }
+
+    .controls{ display:flex; flex-wrap:wrap; gap:10px; margin: 14px 0; }
+
+    button{
+      border:0; cursor:pointer; padding: 11px 16px; border-radius: 12px;
+      font-weight: 800; transition: transform .1s;
     }
+    button:active{ transform: scale(.97); }
+    .btn-green{ background: linear-gradient(135deg, var(--green), var(--green2)); color:#062114; }
+    .btn-gold{ background: linear-gradient(135deg, var(--gold2), var(--gold)); color:#2a1f06; }
+    .btn-ghost{ background: rgba(16,32,24,.06); border: 1px solid rgba(16,32,24,.1); }
 
-    .content-area {
-      padding: 60px 50px;
+    /* ENVELOPE & SCROLLING MESSAGE SYSTEM */
+    .envelope-container {
       position: relative;
-    }
-
-    h1 {
-      font-family: 'Cinzel', serif;
-      margin: 0;
-      color: var(--bg-dark);
-      font-size: clamp(32px, 5vw, 54px);
-      line-height: 1.1;
-    }
-
-    .irish-sub {
-      display: block;
-      font-size: 24px;
-      color: var(--emerald-dark);
-      margin-top: 10px;
-    }
-
-    .button-group {
-      display: flex;
-      gap: 12px;
-      margin: 30px 0;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      font-family: 'Quicksand', sans-serif;
-      padding: 14px 24px;
-      border-radius: 15px;
-      border: none;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .btn-primary { background: var(--emerald-light); color: white; }
-    .btn-secondary { background: var(--gold-deep); color: var(--bg-dark); }
-    .btn-outline { background: transparent; border: 2px solid var(--emerald-dark); color: var(--emerald-dark); }
-    .btn:hover { transform: translateY(-2px); }
-
-    /* --- ENVELOPE & LETTER LOGIC --- */
-    .envelope-wrapper {
-      margin-top: 50px;
-      position: relative;
+      margin-top: 20px;
       width: 100%;
-      height: 250px;
+      height: 220px;
     }
 
-    .envelope {
+    .envelope-base {
       position: absolute;
       bottom: 0;
       width: 100%;
-      height: 200px;
-      background: var(--env-dark);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      height: 180px;
+      background: #f3e5ab;
+      border-radius: 0 0 10px 10px;
       z-index: 5;
     }
 
-    /* Flap */
-    .envelope::before {
+    .envelope-base::after {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 0; height: 0;
-      border-left: 242px solid transparent;
-      border-right: 242px solid transparent;
-      border-top: 110px solid var(--env-color);
-      transform-origin: top;
-      transition: transform 0.4s ease;
-      z-index: 10;
-    }
-
-    @media (max-width: 1100px) { .envelope::before { border-left-width: 40vw; border-right-width: 40vw; } }
-    @media (min-width: 1101px) { .envelope::before { border-left-width: 242px; border-right-width: 242px; } }
-
-    .envelope.open::before { transform: rotateX(180deg); z-index: 1; }
-
-    .envelope-front {
-      position: absolute;
       inset: 0;
-      z-index: 8;
-      background: linear-gradient(to bottom right, var(--env-color) 50%, var(--env-dark) 50.1%);
+      background: linear-gradient(to bottom right, transparent 50%, rgba(0,0,0,0.05) 50.1%);
       clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
     }
 
-    .letter {
+    .envelope-flap {
+      position: absolute;
+      top: 40px;
+      width: 100%;
+      height: 100px;
+      background: #e6d58e;
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      transition: transform 0.4s ease;
+      transform-origin: top;
+      z-index: 10;
+    }
+
+    .open .envelope-flap { transform: rotateX(180deg); z-index: 1; }
+
+    .message-paper {
       position: absolute;
       bottom: 10px;
       left: 5%;
       width: 90%;
-      height: 180px;
+      height: 160px;
       background: white;
-      padding: 30px;
+      padding: 20px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.2);
       z-index: 6;
       opacity: 0;
       display: flex;
@@ -215,172 +144,164 @@
       border: 1px solid #eee;
     }
 
-    /* Active State: The Letter Pops Up */
-    .envelope.open .letter {
+    .open .message-paper {
       opacity: 1;
-      height: 480px; /* Fixed height for consistency */
-      transform: translateY(-320px);
-      z-index: 12; /* Bring it above everything */
+      height: 400px;
+      transform: translateY(-280px);
+      z-index: 12;
     }
 
-    /* Scrollable Text Area */
-    .typewriter-container {
+    .scroll-area {
       flex: 1;
       overflow-y: auto;
-      padding-right: 10px;
       margin-bottom: 15px;
-    }
-
-    .typewriter-text {
-      font-family: 'Caveat', cursive;
-      font-size: 24px;
-      line-height: 1.4;
-      color: var(--bg-dark);
+      padding-right: 10px;
+      font-size: 18px;
+      line-height: 1.6;
       white-space: pre-wrap;
-      margin: 0;
     }
 
-    .btn-close-letter {
+    .btn-hide {
       align-self: center;
       background: #f0f0f0;
       border: 1px solid #ccc;
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: 'Quicksand', sans-serif;
-      transition: background 0.2s;
-    }
-    .btn-close-letter:hover { background: #e0e0e0; }
-
-    /* Sidebar */
-    .sidebar {
-      background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
-      padding: 60px 40px;
-      border-left: 1px solid #ddd;
+      font-size: 14px;
+      padding: 8px 16px;
     }
 
-    .blessing-quote {
-      font-family: 'Playfair Display', serif;
+    .side{
+      background: rgba(255,255,255,.45);
+      border-radius: 18px;
+      padding: 20px;
+      border: 1px solid rgba(16,32,24,.1);
+    }
+    .toast{
+      margin-top: 15px;
+      padding: 12px;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.05);
       font-style: italic;
-      color: #555;
-      line-height: 1.8;
-      border-left: 4px solid var(--gold-deep);
-      padding-left: 20px;
-      margin-bottom: 40px;
     }
 
-    footer { text-align: center; padding: 40px; color: rgba(255,255,255,0.6); }
+    footer{ margin-top: 20px; text-align: center; color: white; opacity: 0.7; font-size: 13px; }
+
+    .confetti-layer { position: fixed; inset: 0; pointer-events: none; z-index: 1000; }
   </style>
 </head>
 
 <body>
-  <div class="bg-overlay"></div>
-  <div id="confetti-container" class="confetti-container"></div>
+  <div class="confetti-layer" id="confetti"></div>
 
   <main>
     <div class="banner">
       <div class="badge">☘️ Special Delivery</div>
-      <div class="badge">📅 <span id="current-date"></span></div>
-      <button class="btn-icon" id="musicBtn" onclick="toggleAudio()">🎻 Music: Off</button>
+      <div class="badge">📅 <span id="dateText"></span></div>
+      <div class="badge">🎻 Music: <button class="btn-gold" id="btnMusic" style="padding:4px 8px; margin-left:5px;">Play</button></div>
     </div>
 
-    <audio id="celticAudio" loop><source src="celtic.mp3" type="audio/mpeg"></audio>
+    <audio id="bgm" loop><source src="celtic.mp3" type="audio/mpeg"></audio>
 
     <section class="card">
       <div class="card-inner">
-        <div class="content-area">
-          <div class="title-group">
-            <h1>Happy Birthday,<br>Aunt Tricia! 🍀</h1>
-            <span class="irish-sub">Lá breithe sona duit!</span>
+        <div>
+          <h1 class="title">
+            <span class="en">Happy Birthday, Aunt Tricia! 🍀</span>
+            <span class="ga">Lá breithe sona duit!</span>
+          </h1>
+          <p>You hand-paint the prettiest cards... I'm not a painter, so I made you one with code. 😊</p>
+
+          <div class="controls">
+            <button class="btn-green" id="btnReveal">✨ Reveal my message</button>
+            <button class="btn-gold" id="btnConfetti">🍀 Clover confetti</button>
+            <button class="btn-ghost" onclick="window.open('https://www.earthcam.com/world/ireland/dublin/?cam=templebar', '_blank')">🇮🇪 Live feed from Dublin</button>
           </div>
 
-          <div class="button-group">
-            <button class="btn btn-primary" onclick="revealMessage()">✨ Open Letter</button>
-            <button class="btn btn-secondary" onclick="fireCloverConfetti()">🍀 Confetti</button>
-          </div>
-
-          <div class="envelope-wrapper">
-            <div class="envelope" id="envelope">
-              <div class="envelope-front"></div>
-              <div class="letter" id="letter">
-                <div class="typewriter-container">
-                  <p class="typewriter-text" id="typewriterTarget"></p>
-                </div>
-                <button class="btn-close-letter" onclick="hideMessage()">Hide Letter ✖</button>
-              </div>
+          <div class="envelope-container" id="container">
+            <div class="envelope-flap"></div>
+            <div class="envelope-base"></div>
+            <div class="message-paper">
+              <div class="scroll-area" id="typedText"></div>
+              <button class="btn-hide" id="btnHide">Hide Message ✖</button>
             </div>
           </div>
         </div>
 
-        <aside class="sidebar">
-          <h3 style="font-family: 'Cinzel', serif; color: var(--emerald-dark)">Irish Blessing</h3>
-          <div class="blessing-quote">
-            "May your day be filled with blessings like the sun that lights the sky, and may you always have a friend to walk your road and stay by your side."
+        <aside class="side">
+          <h3>Irish Blessing</h3>
+          <p>"May your day be filled with blessings like the sun that lights the sky, and may you always have a friend to walk your road and stay by your side."</p>
+          
+          <div class="toast">
+            <strong>Irish toast:</strong><br>
+            May your pockets be heavy and your heart be light,<br>
+            may good luck pursue you each morning and night. 🍻
           </div>
-          <p style="font-size: 14px; color: #666;">
-            <strong>Irish Toast:</strong><br>
-            May your pockets be heavy and your heart be light, may good luck pursue you each morning and night. 🍻
-          </p>
+
+          <p style="font-size:12px; margin-top:20px; opacity:0.8;">Pro tip: turn on the music and open the Dublin live feed for the full experience!</p>
         </aside>
       </div>
     </section>
 
-    <footer>Made with ☘️ + ❤️ by Kay Thomas</footer>
+    <footer>Made with ☘️ + ❤️ by Kay Freeman</footer>
   </main>
 
   <script>
     const CONFIG = {
-      message: "Happy Birthday!\n\nYou've always been such a wonderful part of my life. I'm lucky to have an aunt who is as kind, supportive, and full of love as you.\n\nI hope your day is filled with laughter, happiness, and all the things that make you smile. You deserve the best year yet!\n\nLove always,\nKay",
+      message: "Happy Birthday!\n\nThank you for every hand-painted card you’ve ever made me. I can’t paint like you… but I CAN code like a goblin with a mission.\n\nHope you enjoy your day!\n\nLove you lots ❤️\n- Kay"
     };
 
-    document.getElementById('current-date').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+    document.getElementById('dateText').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
 
-    function fireCloverConfetti() {
-      const container = document.getElementById('confetti-container');
-      for (let i = 0; i < 30; i++) {
-        const piece = document.createElement('div');
-        piece.style.position = 'absolute';
-        piece.style.left = Math.random() * 100 + 'vw';
-        piece.style.top = '-20px';
-        piece.textContent = '🍀';
-        piece.style.fontSize = (16 + Math.random() * 20) + 'px';
-        piece.animate([{ transform: 'translateY(0) rotate(0)' }, { transform: `translateY(110vh) rotate(${Math.random() * 360}deg)` }], 
-          { duration: 2000 + Math.random() * 3000, easing: 'linear' });
-        container.appendChild(piece);
-        setTimeout(() => piece.remove(), 5000);
-      }
-    }
+    const container = document.getElementById('container');
+    const typedTextEl = document.getElementById('typedText');
+    const bgm = document.getElementById('bgm');
+    const btnMusic = document.getElementById('btnMusic');
 
-    const audio = document.getElementById('celticAudio');
-    function toggleAudio() {
-      if (audio.paused) { audio.play(); document.getElementById('musicBtn').textContent = '🎻 Music: On'; }
-      else { audio.pause(); document.getElementById('musicBtn').textContent = '🎻 Music: Off'; }
-    }
+    let isTyped = false;
 
-    let typedOnce = false;
-    function revealMessage() {
-      const envelope = document.getElementById('envelope');
-      const target = document.getElementById('typewriterTarget');
-      envelope.classList.add('open');
-      
-      if (typedOnce) return;
-      typedOnce = true;
-      
+    function typewriter() {
+      if (isTyped) return;
+      isTyped = true;
       let i = 0;
-      function type() {
+      function tick() {
         if (i < CONFIG.message.length) {
-          target.textContent += CONFIG.message.charAt(i);
+          typedTextEl.textContent += CONFIG.message.charAt(i);
           i++;
-          setTimeout(type, 50); // Slower, readable speed
+          setTimeout(tick, 40);
         }
       }
-      setTimeout(type, 800);
-      fireCloverConfetti();
+      tick();
     }
 
-    function hideMessage() {
-      document.getElementById('envelope').classList.remove('open');
+    document.getElementById('btnReveal').addEventListener('click', () => {
+      container.classList.add('open');
+      setTimeout(typewriter, 600);
+      spawnConfetti();
+    });
+
+    document.getElementById('btnHide').addEventListener('click', () => {
+      container.classList.remove('open');
+    });
+
+    document.getElementById('btnConfetti').addEventListener('click', spawnConfetti);
+
+    btnMusic.addEventListener('click', () => {
+      if (bgm.paused) { bgm.play(); btnMusic.textContent = "Pause"; }
+      else { bgm.pause(); btnMusic.textContent = "Play"; }
+    });
+
+    function spawnConfetti() {
+      const folder = document.getElementById('confetti');
+      for (let i = 0; i < 40; i++) {
+        const leaf = document.createElement('span');
+        leaf.textContent = '🍀';
+        leaf.style.cssText = `position:absolute; left:${Math.random()*100}vw; top:-20px; font-size:${15+Math.random()*20}px; transition: transform 3s linear;`;
+        folder.appendChild(leaf);
+        setTimeout(() => {
+          leaf.style.transform = `translateY(110vh) rotate(${Math.random()*360}deg)`;
+        }, 50);
+        setTimeout(() => leaf.remove(), 3500);
+      }
     }
   </script>
 </body>
