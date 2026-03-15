@@ -35,7 +35,6 @@
       min-height: 100vh;
     }
 
-    /* Decorative Background Elements */
     .bg-overlay {
       position: fixed; inset: 0;
       background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
@@ -51,7 +50,6 @@
       width: 100%;
     }
 
-    /* Header Styling */
     .banner{
       display:flex;
       align-items:center;
@@ -94,7 +92,6 @@
       box-shadow: 0 0 10px var(--accent-glow);
     }
 
-    /* The Main Card */
     .card{
       position:relative;
       border-radius: 30px;
@@ -114,7 +111,6 @@
       .card-inner{ grid-template-columns: 1fr; }
     }
 
-    /* Content Area */
     .content-area {
       padding: 60px 50px;
       position: relative;
@@ -155,7 +151,6 @@
       color: #444;
     }
 
-    /* Controls */
     .button-group {
       display: flex;
       gap: 15px;
@@ -184,7 +179,6 @@
       color: var(--emerald-dark); 
     }
 
-    /* Message Reveal Box */
     .message-reveal-box {
       margin-top: 40px;
       background: white;
@@ -205,74 +199,6 @@
       white-space: pre-wrap;
     }
 
-    /* Candle Mantle Area */
-    .candle-mantle {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      width: 80px;
-      height: 100px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      z-index: 5;
-    }
-
-    .candle-hint {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #aaa;
-      margin-bottom: 5px;
-    }
-
-    .candle {
-      width: 25px;
-      height: 50px;
-      background: #eee;
-      border-radius: 4px;
-      position: relative;
-      cursor: pointer;
-    }
-
-    .flame {
-      width: 14px;
-      height: 22px;
-      background: radial-gradient(circle at 50% 100%, #fff700, #ff8c00);
-      border-radius: 50% 50% 20% 20%;
-      position: absolute;
-      top: -24px;
-      left: 50%;
-      transform: translateX(-50%);
-      animation: flicker 0.1s infinite alternate;
-      box-shadow: 0 0 20px rgba(255, 165, 0, 0.6);
-    }
-
-    @keyframes flicker {
-      from { transform: translateX(-50%) scale(1); }
-      to { transform: translateX(-48%) scale(1.1); }
-    }
-
-    .blown-out .flame { display: none; }
-    .blown-out .smoke { display: block; }
-
-    .smoke {
-      position: absolute;
-      top: -20px;
-      width: 4px;
-      height: 10px;
-      background: rgba(100,100,100,0.3);
-      filter: blur(4px);
-      display: none;
-      animation: rise 2s forwards;
-    }
-
-    @keyframes rise {
-      to { transform: translateY(-40px) scale(3); opacity: 0; }
-    }
-
-    /* Sidebar Area */
     .sidebar {
       background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
       padding: 60px 40px;
@@ -296,14 +222,31 @@
       margin-bottom: 40px;
     }
 
+    .toast-container {
+      margin-top: 20px;
+    }
+
+    #toastBtn {
+      width: 100%;
+      text-align: center;
+      line-height: 1.4;
+      padding: 15px;
+    }
+
     .toast-card {
       background: white;
       border-radius: 15px;
       padding: 25px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      display: none;
+      animation: fadeIn 0.8s ease forwards;
     }
 
-    /* Modal Styling */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -335,7 +278,7 @@
 
     .video-wrapper {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      padding-bottom: 56.25%;
       height: 0;
     }
 
@@ -343,12 +286,6 @@
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-    }
-
-    /* Confetti */
-    #confetti-canvas {
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 2000;
     }
 
     footer {
@@ -362,7 +299,6 @@
 
 <body>
   <div class="bg-overlay"></div>
-  <div id="confetti-container"></div>
 
   <div class="modal-overlay" id="liveFeedModal">
     <div class="modal-content">
@@ -404,20 +340,12 @@
 
           <div class="button-group">
             <button class="btn btn-primary" onclick="revealMessage()">✨ Reveal my message</button>
-            <button class="btn btn-secondary" onclick="fireConfetti()">🍀 Clover confetti</button>
+            <button class="btn btn-secondary" onclick="fireCloverConfetti()">🍀 Clover confetti</button>
             <button class="btn btn-outline" onclick="openFeed()">🇮🇪 Live feed from Dublin</button>
           </div>
 
           <div class="message-reveal-box">
             <p class="typewriter-text" id="typewriterTarget"></p>
-            
-            <div class="candle-mantle">
-              <span class="candle-hint">Blow out!</span>
-              <div class="candle" id="birthdayCandle" onclick="blowOut()">
-                <div class="flame"></div>
-                <div class="smoke"></div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -427,17 +355,21 @@
             "May your day be filled with blessings like the sun that lights the sky, and may you always have a friend to walk your road and stay by your side."
           </div>
 
-          <div class="toast-card">
-            <strong style="color:var(--emerald-dark)">Irish Toast:</strong><br><br>
-            May your pockets be heavy and your heart be light,<br>
-            may good luck pursue you each morning and night. 🍻
+          <div class="toast-container">
+            <button class="btn btn-secondary" id="toastBtn" onclick="revealToast()">grab a drink then press here when you're ready for a toast</button>
+            
+            <div class="toast-card" id="toastCard">
+              <strong style="color:var(--emerald-dark)">Irish Toast:</strong><br><br>
+              May your pockets be heavy and your heart be light,<br>
+              may good luck pursue you each morning and night. 🍻
+            </div>
           </div>
         </aside>
       </div>
     </section>
 
     <footer>
-      Made with ☘️ + ❤️ by Kay Freeman
+      Made with ☘️ + ❤️ by Kay Thomas
     </footer>
   </main>
 
@@ -447,26 +379,22 @@
       message: "Happy birthday! Thank you for every hand-painted card you’ve ever made me.\n\nI can’t paint like you… but I CAN code like a goblin with a mission.\n\nHope you enjoy your day!\n\nLove you lots ❤️\n- Kay"
     };
 
-    // Initialize State
     document.getElementById('current-date').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
     
-    // Smooth Reveal
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         document.getElementById('headerGroup').classList.add('visible');
       }, 500);
       
-      // Auto-confetti on load
-      fireConfetti();
+      fireCloverConfetti();
     });
 
-    // Audio Controller
     const audio = document.getElementById('celticAudio');
     const musicBtn = document.getElementById('musicBtn');
     
     function toggleAudio() {
       if (audio.paused) {
-        audio.play();
+        audio.play().catch(e => console.log("Audio play blocked by browser"));
         musicBtn.textContent = 'Pause';
       } else {
         audio.pause();
@@ -474,7 +402,6 @@
       }
     }
 
-    // Typewriter Effect
     let isTyping = false;
     function revealMessage() {
       if (isTyping) return;
@@ -497,19 +424,10 @@
       type();
     }
 
-    // Candle Interaction
-    function blowOut() {
-      const candle = document.getElementById('birthdayCandle');
-      if (!candle.classList.contains('blown-out')) {
-        candle.classList.add('blown-out');
-        fireConfetti();
-      } else {
-        candle.classList.remove('blown-out');
-      }
-    }
+    function fireCloverConfetti() {
+      const clover = confetti.shapeFromText({ text: '🍀', scalar: 2 });
+      const shamrock = confetti.shapeFromText({ text: '☘️', scalar: 2 });
 
-    // Confetti
-    function fireConfetti() {
       const duration = 3 * 1000;
       const end = Date.now() + duration;
 
@@ -519,14 +437,14 @@
           angle: 60,
           spread: 55,
           origin: { x: 0 },
-          colors: ['#1fb56a', '#d7b65b', '#ffffff']
+          shapes: [clover, shamrock]
         });
         confetti({
           particleCount: 2,
           angle: 120,
           spread: 55,
           origin: { x: 1 },
-          colors: ['#1fb56a', '#d7b65b', '#ffffff']
+          shapes: [clover, shamrock]
         });
 
         if (Date.now() < end) {
@@ -535,13 +453,17 @@
       }());
     }
 
-    // Modal & Video Feed
+    function revealToast() {
+      document.getElementById('toastBtn').style.display = 'none';
+      document.getElementById('toastCard').style.display = 'block';
+      fireCloverConfetti();
+    }
+
     const modal = document.getElementById('liveFeedModal');
     let player;
 
     function openFeed() {
       modal.style.display = 'flex';
-      // Load YouTube Player API
       if (!player) {
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
@@ -556,7 +478,7 @@
       player = new YT.Player('player', {
         height: '360',
         width: '640',
-        videoId: '3nyPER2kzqk', // EarthCam Dublin Live
+        videoId: '3nyPER2kzqk',
         playerVars: {
           'autoplay': 1,
           'controls': 1
@@ -569,7 +491,6 @@
       if (player) player.pauseVideo();
     }
 
-    // Close on backdrop click
     window.onclick = function(event) {
       if (event.target == modal) closeFeed();
     }
