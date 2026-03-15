@@ -1,592 +1,523 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Happy Birthday Aunt Tricia! 🍀</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday Aunt Tricia! 🍀</title>
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    :root{
+      --bg-dark: #041e15;
+      --bg-gradient: linear-gradient(135deg, #041e15 0%, #0a3d2e 100%);
+      --emerald-light: #1fb56a;
+      --emerald-dark: #0ea85a;
+      --gold-bright: #f1d78a;
+      --gold-deep: #d7b65b;
+      --paper-tint: #fffcf5;
+      --ink: #102018;
+      --accent-glow: rgba(241, 215, 138, 0.3);
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; }
+    
+    body{
+      font-family: 'Quicksand', sans-serif;
+      color: var(--ink);
+      background: var(--bg-gradient);
+      overflow-x:hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-<style>
+    .bg-overlay {
+      position: fixed; inset: 0;
+      background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+      opacity: 0.3; pointer-events: none;
+      z-index: 0;
+    }
 
-:root{
---bg-dark:#041e15;
---bg-gradient:linear-gradient(135deg,#041e15 0%,#0a3d2e 100%);
---emerald-light:#1fb56a;
---emerald-dark:#0ea85a;
---gold-bright:#f1d78a;
---gold-deep:#d7b65b;
---paper-tint:#fffcf5;
---ink:#102018;
---accent-glow:rgba(241,215,138,.3);
-}
+    /* CSS Confetti Styles */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
 
-*{box-sizing:border-box;}
-html,body{height:100%;margin:0;}
+    .confetti-piece {
+      position: absolute;
+      top: -50px;
+      font-size: 24px;
+      animation: fall linear forwards;
+    }
 
-body{
-font-family:'Quicksand',sans-serif;
-color:var(--ink);
-background:var(--bg-gradient);
-overflow-x:hidden;
-display:flex;
-flex-direction:column;
-min-height:100vh;
-}
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
 
-/* floating shamrocks */
-.shamrock{
-position:fixed;
-font-size:20px;
-opacity:.15;
-animation:floatShamrock linear infinite;
-pointer-events:none;
-z-index:1;
-}
+    main{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position:relative;
+      z-index: 10;
+      width: 100%;
+    }
 
-@keyframes floatShamrock{
-0%{transform:translateY(100vh) rotate(0deg);}
-100%{transform:translateY(-20vh) rotate(360deg);}
-}
+    .banner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      margin-bottom: 30px;
+      flex-wrap:wrap;
+    }
 
-.bg-overlay{
-position:fixed;
-inset:0;
-background-image:url('https://www.transparenttextures.com/patterns/dark-matter.png');
-opacity:.3;
-pointer-events:none;
-z-index:0;
-}
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 18px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
 
-main{
-max-width:1100px;
-margin:auto;
-padding:40px 20px;
-position:relative;
-z-index:10;
-width:100%;
-}
+    .header-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
 
-.banner{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
-margin-bottom:30px;
-flex-wrap:wrap;
-}
+    .btn-icon {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-icon:hover { background: rgba(255,255,255,0.2); }
+    .btn-icon.active { background: var(--emerald-light); border-color: var(--emerald-light); }
 
-.badge{
-display:inline-flex;
-align-items:center;
-gap:10px;
-padding:10px 18px;
-border:1px solid rgba(255,255,255,0.15);
-border-radius:50px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-color:white;
-font-weight:600;
-font-size:14px;
-}
+    .card{
+      position:relative;
+      border-radius: 30px;
+      background: var(--paper-tint);
+      box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+      overflow:hidden;
+      border: 8px solid white;
+    }
 
-.header-controls{
-display:flex;
-gap:12px;
-align-items:center;
-}
+    .card-inner{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      min-height: 600px;
+    }
 
-.btn-icon{
-background:rgba(255,255,255,0.1);
-border:1px solid rgba(255,255,255,0.2);
-color:white;
-padding:8px 16px;
-border-radius:12px;
-cursor:pointer;
-font-size:13px;
-font-weight:600;
-transition:all .2s ease;
-}
+    @media (max-width: 900px){
+      .card-inner{ grid-template-columns: 1fr; }
+    }
 
-.btn-icon:hover{
-background:rgba(255,255,255,0.2);
-transform:translateY(-2px) scale(1.03);
-box-shadow:0 8px 18px rgba(0,0,0,.2);
-}
+    .content-area {
+      padding: 60px 50px;
+      position: relative;
+    }
 
-.btn-icon.active{
-background:var(--emerald-light);
-border-color:var(--emerald-light);
-}
+    .title-group {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1.2s ease-out;
+    }
+    .title-group.visible { opacity: 1; transform: translateY(0); }
 
-.card{
-position:relative;
-border-radius:30px;
-background:var(--paper-tint);
-box-shadow:0 50px 100px rgba(0,0,0,.5);
-overflow:hidden;
-border:8px solid white;
-}
+    h1 {
+      font-family: 'Cinzel', serif;
+      margin: 0;
+      color: var(--bg-dark);
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.1;
+    }
 
-.card-inner{
-display:grid;
-grid-template-columns:1.2fr .8fr;
-min-height:600px;
-}
+    .irish-sub {
+      display: block;
+      font-size: 24px;
+      color: var(--emerald-dark);
+      margin-top: 10px;
+      font-weight: 400;
+    }
 
-@media(max-width:900px){
-.card-inner{grid-template-columns:1fr;}
-}
+    .welcome-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 18px;
+      margin: 25px 0;
+      color: #444;
+    }
 
-.content-area{
-padding:60px 50px;
-position:relative;
-}
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
 
-.title-group{
-opacity:0;
-transform:translateY(20px);
-transition:all 1.2s ease-out;
-}
+    .btn {
+      font-family: 'Quicksand', sans-serif;
+      padding: 14px 24px;
+      border-radius: 15px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+    }
+    .btn-primary { background: var(--emerald-light); color: white; }
+    .btn-secondary { background: var(--gold-deep); color: var(--bg-dark); }
+    .btn-outline { background: transparent; border: 2px solid var(--emerald-dark); color: var(--emerald-dark); }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-.title-group.visible{
-opacity:1;
-transform:translateY(0);
-}
+    .message-reveal-box {
+      margin-top: 30px;
+      background: white;
+      border-radius: 20px;
+      padding: 35px;
+      min-height: 220px;
+      border: 1px solid #eee;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+    }
 
-h1{
-font-family:'Cinzel',serif;
-margin:0;
-color:var(--bg-dark);
-font-size:clamp(32px,5vw,54px);
-line-height:1.1;
-}
+    .typewriter-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      line-height: 1.6;
+      color: var(--bg-dark);
+      margin: 0;
+      white-space: pre-wrap;
+    }
 
-.irish-sub{
-display:block;
-font-size:24px;
-color:var(--emerald-dark);
-margin-top:10px;
-}
+    .sidebar {
+      background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
+      padding: 60px 40px;
+      border-left: 1px solid #ddd;
+    }
 
-/* birthday candle */
-.candle{
-font-size:36px;
-margin-top:12px;
-cursor:pointer;
-display:inline-block;
-transition:transform .2s;
-}
+    .sidebar h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: var(--emerald-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.candle:hover{transform:scale(1.2);}
+    .blessing-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #555;
+      line-height: 1.8;
+      border-left: 4px solid var(--gold-deep);
+      padding-left: 20px;
+      margin-bottom: 40px;
+      min-height: 120px;
+      transition: opacity 0.4s;
+    }
 
-.welcome-text{
-font-family:'Playfair Display',serif;
-font-style:italic;
-font-size:18px;
-margin:25px 0;
-color:#444;
-}
+    .toast-container { margin-top: 20px; }
 
-.button-group{
-display:flex;
-gap:12px;
-margin:30px 0;
-flex-wrap:wrap;
-}
+    #toastBtn {
+      width: 100%;
+      text-align: center;
+      line-height: 1.4;
+      padding: 18px;
+      font-size: 14px;
+    }
 
-.btn{
-font-family:'Quicksand',sans-serif;
-padding:14px 24px;
-border-radius:15px;
-border:none;
-font-weight:700;
-cursor:pointer;
-transition:all .2s ease;
-font-size:14px;
-}
+    .toast-card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      display: none;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
 
-.btn-primary{background:var(--emerald-light);color:white;}
-.btn-secondary{background:var(--gold-deep);color:var(--bg-dark);}
-.btn-outline{background:transparent;border:2px solid var(--emerald-dark);color:var(--emerald-dark);}
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-.btn:hover{
-transform:translateY(-3px) scale(1.03);
-box-shadow:0 8px 20px rgba(0,0,0,.15);
-}
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.92);
+      display: none;
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
 
-.message-reveal-box{
-margin-top:30px;
-background:white;
-border-radius:20px;
-padding:35px;
-min-height:220px;
-border:1px solid #eee;
-box-shadow:inset 0 2px 10px rgba(0,0,0,.02);
-transition:box-shadow .6s ease;
-}
+    .modal-content {
+      width: 100%;
+      max-width: 960px;
+      background: #000;
+      border-radius: 20px;
+      overflow: hidden;
+    }
 
-/* glow when message revealed */
-.message-reveal-box.glow{
-box-shadow:0 0 25px var(--accent-glow);
-}
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
 
-.typewriter-text{
-font-family:'Playfair Display',serif;
-font-size:20px;
-line-height:1.6;
-color:var(--bg-dark);
-margin:0;
-white-space:pre-wrap;
-}
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
 
-/* signature reveal */
-.signature{
-margin-top:20px;
-opacity:0;
-font-family:'Playfair Display',serif;
-font-style:italic;
-font-size:18px;
-transition:opacity 1.5s ease;
-}
-
-.signature.visible{opacity:1;}
-
-.sidebar{
-background:linear-gradient(to bottom,#fdfbfb 0%,#ebedee 100%);
-padding:60px 40px;
-border-left:1px solid #ddd;
-}
-
-.blessing-quote{
-font-family:'Playfair Display',serif;
-font-style:italic;
-color:#555;
-line-height:1.8;
-border-left:4px solid var(--gold-deep);
-padding-left:20px;
-margin-bottom:40px;
-min-height:120px;
-transition:opacity .4s;
-}
-
-.toast-container{margin-top:20px;}
-
-#toastBtn{
-width:100%;
-text-align:center;
-line-height:1.4;
-padding:18px;
-font-size:14px;
-}
-
-.toast-card{
-background:white;
-border-radius:15px;
-padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,.05);
-display:none;
-animation:fadeInUp .6s ease-out forwards;
-}
-
-@keyframes fadeInUp{
-from{opacity:0;transform:translateY(15px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-.modal-overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.92);
-display:none;
-z-index:1000;
-justify-content:center;
-align-items:center;
-padding:20px;
-}
-
-.modal-content{
-width:100%;
-max-width:960px;
-background:#000;
-border-radius:20px;
-overflow:hidden;
-}
-
-.video-wrapper{
-position:relative;
-padding-bottom:56.25%;
-height:0;
-}
-
-.video-wrapper iframe{
-position:absolute;
-top:0;left:0;
-width:100%;height:100%;
-border:none;
-}
-
-footer{
-text-align:center;
-padding:40px;
-color:rgba(255,255,255,.6);
-font-size:13px;
-}
-
-</style>
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: rgba(255,255,255,0.6);
+      font-size: 13px;
+    }
+  </style>
 </head>
 
 <body>
-
-<div class="bg-overlay"></div>
-
-<div class="modal-overlay" id="liveFeedModal">
-<div class="modal-content">
-<div style="background:#111;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;">
-<span style="font-weight:700;font-family:'Cinzel',serif;">🇮🇪 Live from Dublin</span>
-<button onclick="closeFeed()" style="background:none;border:none;color:white;font-size:24px;">&times;</button>
-</div>
-<div class="video-wrapper"><div id="player"></div></div>
-</div>
-</div>
-
-<main>
-
-<div class="banner">
-<div class="badge">☘️ Special Delivery</div>
-<div class="badge">📅 <span id="current-date"></span></div>
-
-<div class="header-controls">
-<button class="btn-icon" id="musicBtn" onclick="toggleAudio()">🎻 Music: Off</button>
-</div>
-</div>
-
-<audio id="celticAudio" loop>
-<source src="celtic.mp3" type="audio/mpeg">
-</audio>
-
-<section class="card">
-
-<div class="card-inner">
-
-<div class="content-area">
-
-<div class="title-group" id="headerGroup">
-
-<h1>Happy Birthday,<br>Aunt Tricia! 🍀</h1>
-
-<span class="irish-sub">Lá breithe sona duit!</span>
-
-<div class="candle" id="candle">🕯️</div>
-
-</div>
-
-<p class="welcome-text">
-You hand-paint the prettiest cards... I’m not a painter, so I made you one with code.
-</p>
-
-<div class="button-group">
-
-<button class="btn btn-primary" onclick="revealMessage()">✨ Reveal my message</button>
-
-<button class="btn btn-secondary" onclick="fireCloverConfetti()">🍀 Clover confetti</button>
-
-<button class="btn btn-outline" onclick="openFeed()">🇮🇪 Live feed from Dublin</button>
-
-</div>
-
-<div class="message-reveal-box" id="messageBox">
-
-<p class="typewriter-text" id="typewriterTarget"></p>
-
-<div class="signature" id="signature">— Love always, Kay 💜</div>
-
-</div>
-
-</div>
-
-<aside class="sidebar">
-
-<h3>Irish Blessing <button onclick="newBlessing()" style="background:none;border:none;font-size:14px;">🔄</button></h3>
-
-<div class="blessing-quote" id="blessingTarget">
-"May your day be filled with blessings like the sun that lights the sky..."
-</div>
-
-<div class="toast-container">
-
-<button class="btn btn-secondary" id="toastBtn" onclick="revealToast()">grab a drink then press here when you're ready for a toast</button>
-
-<div class="toast-card" id="toastCard">
-<strong style="color:var(--emerald-dark)">Irish Toast:</strong><br><br>
-May your pockets be heavy and your heart be light,<br>
-may good luck pursue you each morning and night. 🍻
-</div>
-
-</div>
-
-</aside>
-
-</div>
-</section>
-
-<footer>
-Made with ☘️ + ❤️ by Kay Thomas
-</footer>
-
-</main>
-
-<script>
-
-document.getElementById('current-date').textContent =
-new Date().toLocaleDateString(undefined,{month:'long',day:'numeric'});
-
-window.addEventListener('load',()=>{
-document.getElementById('headerGroup').classList.add('visible');
-setTimeout(fireCloverConfetti,500);
-});
-
-/* floating shamrocks */
-
-function spawnShamrock(){
-const shamrock=document.createElement("div");
-shamrock.className="shamrock";
-shamrock.textContent="🍀";
-shamrock.style.left=Math.random()*100+"vw";
-shamrock.style.animationDuration=(10+Math.random()*8)+"s";
-document.body.appendChild(shamrock);
-setTimeout(()=>shamrock.remove(),18000);
-}
-
-setInterval(spawnShamrock,1400);
-
-/* candle interaction */
-
-document.getElementById("candle").onclick=()=>{
-document.getElementById("candle").textContent="✨";
-fireCloverConfetti();
-setTimeout(()=>{
-document.getElementById("candle").textContent="🕯️";
-},1500);
-};
-
-const CONFIG={
-message:`Happy birthday!
-
-Thank you for every hand-painted card you’ve ever made me.
-
-I can’t paint like you… but I CAN code like a goblin with a mission.
-
-Hope you enjoy your day!
-
-Love you lots ❤️`,
-blessings:[
-"May the road rise up to meet you.",
-"May the wind be always at your back.",
-"May the sun shine warm upon your face.",
-"May good luck pursue you each morning and night.",
-"May your pockets be heavy and your heart be light."
-]
-};
-
-function fireCloverConfetti(){
-confetti({particleCount:120,spread:70,origin:{y:.6}});
-}
-
-const audio=document.getElementById('celticAudio');
-const musicBtn=document.getElementById('musicBtn');
-
-function toggleAudio(){
-if(audio.paused){
-audio.play().catch(()=>alert("Click page first to enable audio."));
-musicBtn.textContent='🎻 Music: On';
-musicBtn.classList.add('active');
-}else{
-audio.pause();
-musicBtn.textContent='🎻 Music: Off';
-musicBtn.classList.remove('active');
-}
-}
-
-function newBlessing(){
-const target=document.getElementById("blessingTarget");
-target.style.opacity=0;
-setTimeout(()=>{
-target.textContent=CONFIG.blessings[Math.floor(Math.random()*CONFIG.blessings.length)];
-target.style.opacity=1;
-},400);
-}
-
-let typing=false;
-
-function revealMessage(){
-
-if(typing)return;
-typing=true;
-
-const target=document.getElementById("typewriterTarget");
-const box=document.getElementById("messageBox");
-const signature=document.getElementById("signature");
-
-target.textContent="";
-signature.classList.remove("visible");
-box.classList.add("glow");
-
-let i=0;
-
-function type(){
-if(i<CONFIG.message.length){
-target.textContent+=CONFIG.message.charAt(i);
-i++;
-setTimeout(type,35);
-}else{
-typing=false;
-signature.classList.add("visible");
-}
-}
-
-type();
-fireCloverConfetti();
-
-}
-
-function revealToast(){
-document.getElementById("toastBtn").style.display="none";
-document.getElementById("toastCard").style.display="block";
-fireCloverConfetti();
-}
-
-const modal=document.getElementById("liveFeedModal");
-let player;
-
-function openFeed(){
-modal.style.display="flex";
-if(!window.YT){
-const tag=document.createElement("script");
-tag.src="https://www.youtube.com/iframe_api";
-document.body.appendChild(tag);
-}else if(player){
-player.playVideo();
-}
-}
-
-function onYouTubeIframeAPIReady(){
-player=new YT.Player('player',{height:'360',width:'100%',videoId:'3nyPER2kzqk',playerVars:{autoplay:1}});
-}
-
-function closeFeed(){
-modal.style.display="none";
-if(player)player.pauseVideo();
-}
-
-window.onclick=(e)=>{if(e.target==modal)closeFeed();};
-
-</script>
-
+  <div class="bg-overlay"></div>
+  <div id="confetti-container" class="confetti-container"></div>
+
+  <div class="modal-overlay" id="liveFeedModal">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#111; color:#fff; padding:15px 20px; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-weight: 700; font-family: 'Cinzel', serif;">🇮🇪 Live from Dublin, Ireland</span>
+        <button onclick="closeFeed()" style="background:none; border:none; color:white; cursor:pointer; font-size:24px;">&times;</button>
+      </div>
+      <div class="video-wrapper">
+        <div id="player"></div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <div class="banner">
+      <div class="badge">☘️ Special Delivery</div>
+      <div class="badge">📅 <span id="current-date"></span></div>
+      <div class="header-controls">
+        <button class="btn-icon" id="musicBtn" onclick="toggleAudio()">🎻 Music: Off</button>
+      </div>
+    </div>
+
+    <audio id="celticAudio" loop>
+      <source src="celtic.mp3" type="audio/mpeg">
+    </audio>
+
+    <section class="card">
+      <div class="card-inner">
+        <div class="content-area">
+          <div class="title-group" id="headerGroup">
+            <h1>Happy Birthday,<br>Aunt Tricia! 🍀</h1>
+            <span class="irish-sub">Lá breithe sona duit!</span>
+          </div>
+
+          <p class="welcome-text">
+            You hand-paint the prettiest cards... I’m not a painter, so I made you one with code.
+          </p>
+
+          <div class="button-group">
+            <button class="btn btn-primary" onclick="revealMessage()">✨ Reveal my message</button>
+            <button class="btn btn-secondary" onclick="fireCloverConfetti()">🍀 Clover confetti</button>
+            <button class="btn btn-outline" onclick="openFeed()">🇮🇪 Live feed from Dublin</button>
+          </div>
+
+          <div class="message-reveal-box">
+            <p class="typewriter-text" id="typewriterTarget"></p>
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <h3>Irish Blessing <button onclick="newBlessing()" style="background:none; border:none; cursor:pointer; font-size:14px; opacity:0.6;">🔄</button></h3>
+          <div class="blessing-quote" id="blessingTarget">
+            "May your day be filled with blessings like the sun that lights the sky, and may you always have a friend to walk your road and stay by your side."
+          </div>
+
+          <div class="toast-container">
+            <button class="btn btn-secondary" id="toastBtn" onclick="revealToast()">grab a drink then press here when you're ready for a toast</button>
+            
+            <div class="toast-card" id="toastCard">
+              <strong style="color:var(--emerald-dark)">Irish Toast:</strong><br><br>
+              May your pockets be heavy and your heart be light,<br>
+              may good luck pursue you each morning and night. 🍻
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      Made with ☘️ + ❤️ by Kay Freeman
+    </footer>
+  </main>
+
+  <script>
+    const CONFIG = {
+      message: "Happy birthday! Thank you for every hand-painted card you’ve ever made me.\n\nI can’t paint like you… but I CAN code like a goblin with a mission.\n\nHope you enjoy your day!\n\nLove you lots ❤️\n- Kay",
+      blessings: [
+        "May your day be filled with blessings like the sun that lights the sky, and may you always have a friend to walk your road and stay by your side.",
+        "May the road rise up to meet you. May the wind be always at your back. May the sun shine warm upon your face.",
+        "May you have the hindsight to know where you've been, the foresight to know where you are going, and the insight to know when you have gone too far.",
+        "May the roof above us never fall in, and may the friends gathered below it never fall out.",
+        "May you live as long as you want, and never want as long as you live."
+      ]
+    };
+
+    // Initialize Page Elements
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+    
+    // Smooth title fade-in
+    window.addEventListener('load', () => {
+      document.getElementById('headerGroup').classList.add('visible');
+      // Fire confetti immediately on load
+      setTimeout(fireCloverConfetti, 500);
+    });
+
+    // --- Fixed Confetti Logic (Native CSS for reliability) ---
+    function fireCloverConfetti() {
+      const container = document.getElementById('confetti-container');
+      const symbols = ['🍀', '☘️'];
+      const count = 40;
+
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        
+        // Randomize placement and animation
+        const startX = Math.random() * 100;
+        const duration = 2 + Math.random() * 3;
+        const delay = Math.random() * 2;
+        const size = 16 + Math.random() * 20;
+
+        piece.style.left = startX + 'vw';
+        piece.style.animationDuration = duration + 's';
+        piece.style.animationDelay = delay + 's';
+        piece.style.fontSize = size + 'px';
+
+        container.appendChild(piece);
+
+        // Clean up piece after animation finishes
+        setTimeout(() => {
+          piece.remove();
+        }, (duration + delay) * 1000);
+      }
+    }
+
+    // --- Audio Controller ---
+    const audio = document.getElementById('celticAudio');
+    const musicBtn = document.getElementById('musicBtn');
+    function toggleAudio() {
+      if (audio.paused) {
+        audio.play().catch(() => {
+          alert("Click anywhere on the card first to enable audio!");
+        });
+        musicBtn.textContent = '🎻 Music: On';
+        musicBtn.classList.add('active');
+      } else {
+        audio.pause();
+        musicBtn.textContent = '🎻 Music: Off';
+        musicBtn.classList.remove('active');
+      }
+    }
+
+    // --- Blessing Generator ---
+    function newBlessing() {
+      const target = document.getElementById('blessingTarget');
+      target.style.opacity = 0;
+      setTimeout(() => {
+        const random = CONFIG.blessings[Math.floor(Math.random() * CONFIG.blessings.length)];
+        target.textContent = `"${random}"`;
+        target.style.opacity = 1;
+      }, 400);
+    }
+
+    // --- Message Reveal ---
+    let typing = false;
+    function revealMessage() {
+      if (typing) return;
+      typing = true;
+      const target = document.getElementById('typewriterTarget');
+      target.textContent = "";
+      let i = 0;
+      function type() {
+        if (i < CONFIG.message.length) {
+          target.textContent += CONFIG.message.charAt(i);
+          i++;
+          setTimeout(type, 35);
+        } else { 
+          typing = false; 
+        }
+      }
+      type();
+      fireCloverConfetti();
+    }
+
+    // --- Toast Reveal ---
+    function revealToast() {
+      document.getElementById('toastBtn').style.display = 'none';
+      document.getElementById('toastCard').style.display = 'block';
+      fireCloverConfetti();
+    }
+
+    // --- YouTube / Modal ---
+    const modal = document.getElementById('liveFeedModal');
+    let player;
+    function openFeed() {
+      modal.style.display = 'flex';
+      if (!window.YT) {
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(tag);
+      } else if (player) {
+        player.playVideo();
+      }
+    }
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360', width: '100%', videoId: '3nyPER2kzqk',
+        playerVars: { 'autoplay': 1, 'controls': 1 }
+      });
+    }
+    function closeFeed() {
+      modal.style.display = 'none';
+      if (player) player.pauseVideo();
+    }
+    window.onclick = (e) => { if (e.target == modal) closeFeed(); };
+  </script>
 </body>
 </html>
