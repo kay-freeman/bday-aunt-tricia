@@ -3,67 +3,89 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Happy Birthday Aunt Trisha! 🍀</title>
+  <title>Happy Birthday Aunt Tricia! 🍀</title>
 
-  <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Quicksand:wght@300..700&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg1:#052b1f;
-      --bg2:#0b5b3f;
-      --paper:#fff9ef;
-      --ink:#102018;
-      --gold:#d7b65b;
-      --gold2:#f1d78a;
-      --green:#1fb56a;
-      --green2:#0ea85a;
+      --bg-dark: #041e15;
+      --bg-gradient: linear-gradient(135deg, #041e15 0%, #0a3d2e 100%);
+      --emerald-light: #1fb56a;
+      --emerald-dark: #0ea85a;
+      --gold-bright: #f1d78a;
+      --gold-deep: #d7b65b;
+      --paper-tint: #fffcf5;
+      --ink: #102018;
+      --accent-glow: rgba(241, 215, 138, 0.3);
       --env-color: #f3e5ab;
       --env-dark: #e6d58e;
     }
+
     *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    html,body{ height:100%; margin:0; }
+    
     body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-family: 'Quicksand', sans-serif;
       color: var(--ink);
-      background:
-        radial-gradient(1200px 700px at 20% 10%, rgba(255,255,255,.08), transparent 50%),
-        radial-gradient(900px 600px at 80% 30%, rgba(255,255,255,.06), transparent 55%),
-        linear-gradient(140deg, var(--bg1), var(--bg2));
+      background: var(--bg-gradient);
       overflow-x:hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
-    .bg-dots{
-      position:fixed; inset:0;
-      pointer-events:none;
-      background-image:
-        radial-gradient(circle at 15% 20%, rgba(255,255,255,.15) 0 1px, transparent 2px),
-        radial-gradient(circle at 65% 35%, rgba(255,255,255,.12) 0 1px, transparent 2px),
-        radial-gradient(circle at 35% 75%, rgba(255,255,255,.10) 0 1px, transparent 2px),
-        radial-gradient(circle at 85% 80%, rgba(255,255,255,.10) 0 1px, transparent 2px);
-      opacity:.55;
-      filter: blur(.1px);
+    .bg-overlay {
+      position: fixed; inset: 0;
+      background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+      opacity: 0.3; pointer-events: none;
+      z-index: 0;
+    }
+
+    /* CSS Confetti Styles */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      top: -50px;
+      font-size: 24px;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
     }
 
     main{
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 28px 18px 60px;
+      padding: 40px 20px;
       position:relative;
-      z-index: 1;
+      z-index: 10;
+      width: 100%;
     }
 
     .banner{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:12px;
-      color: rgba(255,255,255,.92);
-      padding: 10px 6px 18px;
+      gap:15px;
+      margin-bottom: 30px;
       flex-wrap:wrap;
     }
 
@@ -71,60 +93,126 @@
       display:inline-flex;
       align-items:center;
       gap:10px;
-      padding: 10px 12px;
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 999px;
-      backdrop-filter: blur(8px);
-      background: rgba(255,255,255,.08);
-      box-shadow: 0 10px 24px rgba(0,0,0,.12);
-      font-weight: 650;
-      letter-spacing: .2px;
-      user-select:none;
+      padding: 10px 18px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
     }
 
-    .musicbar{
-      margin-top: 8px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      font-size: 13px;
-      color: rgba(255,255,255,.82);
+    .header-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
     }
+
+    .btn-icon {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-icon:hover { background: rgba(255,255,255,0.2); }
+    .btn-icon.active { background: var(--emerald-light); border-color: var(--emerald-light); }
 
     .card{
       position:relative;
-      border-radius: 22px;
-      background: var(--paper);
-      box-shadow: 0 30px 70px rgba(0,0,0,.35), 0 2px 0 rgba(255,255,255,.25) inset;
+      border-radius: 30px;
+      background: var(--paper-tint);
+      box-shadow: 0 50px 100px rgba(0,0,0,0.5);
       overflow:hidden;
-      border: 1px solid rgba(0,0,0,.08);
+      border: 8px solid white;
     }
 
     .card-inner{
-      padding: 34px 22px 22px;
-      position:relative;
       display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 18px;
+      grid-template-columns: 1.2fr 0.8fr;
+      min-height: 600px;
     }
-    @media (max-width: 860px){
+
+    @media (max-width: 900px){
       .card-inner{ grid-template-columns: 1fr; }
     }
 
+    .content-area {
+      padding: 60px 50px;
+      position: relative;
+    }
+
+    .title-group {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1.2s ease-out;
+    }
+    .title-group.visible { opacity: 1; transform: translateY(0); }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      margin: 0;
+      color: var(--bg-dark);
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.1;
+    }
+
+    .irish-sub {
+      display: block;
+      font-size: 24px;
+      color: var(--emerald-dark);
+      margin-top: 10px;
+      font-weight: 400;
+    }
+
+    .welcome-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 18px;
+      margin: 25px 0;
+      color: #444;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: 'Quicksand', sans-serif;
+      padding: 14px 24px;
+      border-radius: 15px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+    }
+    .btn-primary { background: var(--emerald-light); color: white; }
+    .btn-secondary { background: var(--gold-deep); color: var(--bg-dark); }
+    .btn-outline { background: transparent; border: 2px solid var(--emerald-dark); color: var(--emerald-dark); }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
     /* Envelope Styling */
     .envelope-wrapper {
+      margin-top: 30px;
       position: relative;
       width: 100%;
-      height: 300px;
+      height: 320px;
       perspective: 1000px;
-      margin-top: 20px;
     }
 
     .envelope {
       position: relative;
       width: 100%;
-      height: 200px;
+      height: 220px;
       background: var(--env-dark);
       margin-top: 50px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -135,19 +223,23 @@
       content: '';
       position: absolute;
       top: 0;
-      width: 0; height: 0;
-      border-left: 250px solid transparent; /* Adjusted via JS to match width */
-      border-right: 250px solid transparent;
-      border-top: 100px solid var(--env-color);
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 242px solid transparent; /* Half of typical content width */
+      border-right: 242px solid transparent;
+      border-top: 110px solid var(--env-color);
       transform-origin: top;
       transition: transform 0.4s 0.2s ease;
       z-index: 4;
-      left: 50%;
-      transform: translateX(-50%);
     }
+    
+    /* Responsive adjustment for the triangle flap */
+    @media (max-width: 1100px) { .envelope::before { border-left-width: 20vw; border-right-width: 20vw; } }
+    @media (min-width: 1101px) { .envelope::before { border-left-width: 242px; border-right-width: 242px; } }
 
     .envelope.open::before {
-      transform: translateX(-50%) rotateX(180deg);
+      transform: rotateX(180deg);
       z-index: 0;
     }
 
@@ -166,334 +258,343 @@
       width: 90%;
       height: 95%;
       background: white;
-      padding: 20px;
+      padding: 25px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      transition: transform 0.4s 0.4s ease;
+      transition: transform 0.4s 0.4s ease, height 0.4s 0.4s ease;
       z-index: 2;
       overflow-y: auto;
+      border: 1px solid #eee;
     }
 
     .envelope.open .letter {
-      transform: translateY(-120px);
-      height: 250px;
+      transform: translateY(-130px);
+      height: 280px;
     }
 
-    .type { 
-      margin:0; 
+    .typewriter-text {
       font-family: 'Caveat', cursive;
-      font-size: 22px; 
-      line-height: 1.3; 
-      white-space: pre-wrap; 
-      color: var(--ink);
-    }
-    
-    .cursor{
-      display:inline-block;
-      width: 8px;
-      height: 1.1em;
-      border-left: 2px solid rgba(16,32,24,.55);
-      transform: translateY(4px);
-      animation: blink 0.9s infinite;
-      margin-left:2px;
-    }
-    @keyframes blink{ 50%{ opacity:0; } }
-
-    .title{ margin:0 0 12px; line-height:1.08; }
-    .title .en{
-      font-size: clamp(34px, 4.4vw, 54px);
-      font-weight: 900;
-      letter-spacing: .2px;
-    }
-    .title .ga{
-      display:block;
-      margin-top: 6px;
-      font-size: clamp(18px, 2.2vw, 24px);
-      font-weight: 800;
-      color: rgba(16,32,24,.78);
+      font-size: 24px;
+      line-height: 1.4;
+      color: var(--bg-dark);
+      margin: 0;
+      white-space: pre-wrap;
     }
 
-    .controls{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin: 14px 0 8px;
+    .sidebar {
+      background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
+      padding: 60px 40px;
+      border-left: 1px solid #ddd;
     }
 
-    button{
-      border:0;
-      cursor:pointer;
-      padding: 11px 14px;
-      border-radius: 12px;
-      font-weight: 800;
-      letter-spacing:.2px;
-      transition: transform .08s ease, filter .15s ease;
-      box-shadow: 0 10px 18px rgba(0,0,0,.12);
-      user-select:none;
-    }
-    button:active{ transform: translateY(1px) scale(.99); }
-
-    .btn-green{ background: linear-gradient(135deg, var(--green), var(--green2)); color:#062114; }
-    .btn-gold{ background: linear-gradient(135deg, var(--gold2), var(--gold)); color:#2a1f06; }
-    .btn-ghost{
-      background: rgba(16,32,24,.06);
-      color: rgba(16,32,24,.86);
-      box-shadow: none;
-      border: 1px solid rgba(16,32,24,.14);
+    .sidebar h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: var(--emerald-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .side{
-      border-radius: 18px;
-      border: 1px solid rgba(16,32,24,.10);
-      background: rgba(255,255,255,.45);
-      padding: 16px;
-      position:relative;
-    }
-    .side h3{ margin: 0 0 8px; font-size: 18px; letter-spacing:.2px; }
-
-    .toast{
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(16,32,24,.10);
-      background: rgba(255,255,255,.55);
-      font-size:14px;
-      color: rgba(16,32,24,.82);
+    .blessing-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #555;
+      line-height: 1.8;
+      border-left: 4px solid var(--gold-deep);
+      padding-left: 20px;
+      margin-bottom: 40px;
+      min-height: 120px;
+      transition: opacity 0.4s;
     }
 
-    footer{
-      margin-top: 16px;
-      color: rgba(255,255,255,.75);
-      font-size: 13px;
-      text-align:center;
+    .toast-container { margin-top: 20px; }
+
+    #toastBtn {
+      width: 100%;
+      text-align: center;
+      line-height: 1.4;
+      padding: 18px;
+      font-size: 14px;
     }
 
-    /* Confetti */
-    .confetti{
-      position:fixed; inset:0;
-      pointer-events:none; overflow:hidden;
-      z-index: 999;
-    }
-    .confetti span{
-      position:absolute; top:-20px;
-      animation: fall linear forwards;
-    }
-    @keyframes fall{
-      to { transform: translateY(calc(100vh + 40px)) rotate(360deg); opacity:0.95; }
-    }
-
-    /* Leprechaun */
-    .leprechaun{
-      position:absolute;
-      right: 16px;
-      bottom: 18px;
-      font-size: 26px;
-      cursor:pointer;
-      z-index: 10;
-    }
-    .lepre-bubble{
-      position:absolute;
-      right: 16px;
-      bottom: 56px;
-      max-width: 240px;
+    .toast-card {
       background: white;
-      border-radius: 14px;
-      padding: 10px;
-      font-size: 13px;
-      display:none;
-      z-index: 10;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      display: none;
+      animation: fadeInUp 0.6s ease-out forwards;
     }
 
-    /* Modal for “Ireland Escape” */
-    .modal-backdrop{
-      position:fixed; inset:0;
-      background: rgba(0,0,0,.55);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index: 2000;
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .modal{
-      width: min(980px, 100%);
-      background: white;
-      border-radius: 18px;
-      overflow:hidden;
+
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.92);
+      display: none;
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
-    .modal-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding: 12px;
-      background: #eee;
+
+    .modal-content {
+      width: 100%;
+      max-width: 960px;
+      background: #000;
+      border-radius: 20px;
+      overflow: hidden;
     }
-    .pill{
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid #ccc;
-      cursor:pointer;
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: rgba(255,255,255,0.6);
       font-size: 13px;
     }
-    .modal-body{ height: 500px; background: #111; }
   </style>
 </head>
 
 <body>
-  <div class="bg-dots" aria-hidden="true"></div>
-  <div class="confetti" id="confetti" aria-hidden="true"></div>
+  <div class="bg-overlay"></div>
+  <div id="confetti-container" class="confetti-container"></div>
 
-  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true">
-      <div class="modal-header">
-        <div class="modal-title">🍀 Ireland Escape</div>
-        <div class="modal-actions" style="display:flex; gap:10px;">
-          <div class="pill active" data-sky="pano1">Stop 1</div>
-          <div class="pill" data-sky="pano2">Stop 2</div>
-          <div class="pill" data-sky="pano3">Stop 3</div>
-          <div class="pill" id="btnCloseModal">Close ✖</div>
-        </div>
+  <div class="modal-overlay" id="liveFeedModal">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#111; color:#fff; padding:15px 20px; display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-weight: 700; font-family: 'Cinzel', serif;">🇮🇪 Live from Dublin, Ireland</span>
+        <button onclick="closeFeed()" style="background:none; border:none; color:white; cursor:pointer; font-size:24px;">&times;</button>
       </div>
-      <div class="modal-body" id="vrMount"></div>
+      <div class="video-wrapper">
+        <div id="player"></div>
+      </div>
     </div>
   </div>
 
   <main>
     <div class="banner">
-      <div class="badge">☘️ Happy Birthday Card (Tech Nerd Edition)</div>
-      <div class="badge">📅 <span id="todayText">March 17</span></div>
-      <div class="musicbar">
-        <span>🎻 Celtic music:</span>
-        <button class="btn-gold" id="btnMusic">Play</button>
-        <span id="musicStatus">off</span>
+      <div class="badge">☘️ Special Delivery</div>
+      <div class="badge">📅 <span id="current-date"></span></div>
+      <div class="header-controls">
+        <button class="btn-icon" id="musicBtn" onclick="toggleAudio()">🎻 Music: Off</button>
       </div>
     </div>
 
-    <audio id="bgm" preload="auto" loop>
+    <audio id="celticAudio" loop>
       <source src="celtic.mp3" type="audio/mpeg">
     </audio>
 
     <section class="card">
       <div class="card-inner">
-        <div>
-          <h1 class="title">
-            <span class="en">Happy Birthday, <span id="auntName">Aunt Trisha</span>! 🎂🍀</span>
-            <span class="ga">Lá breithe sona duit!</span>
-          </h1>
+        <div class="content-area">
+          <div class="title-group" id="headerGroup">
+            <h1>Happy Birthday,<br>Aunt Tricia! 🍀</h1>
+            <span class="irish-sub">Lá breithe sona duit!</span>
+          </div>
 
-          <div class="controls">
-            <button class="btn-green" id="btnReveal">✨ Reveal my message</button>
-            <button class="btn-gold" id="btnConfetti">🍀 Clover confetti</button>
-            <button class="btn-ghost" id="btnEscape">🧭 5-minute Ireland escape</button>
-            <button class="btn-ghost" id="btnHint">🧝 Catch the leprechaun</button>
+          <p class="welcome-text">
+            You hand-paint the prettiest cards... I’m not a painter, so I made you one with code.
+          </p>
+
+          <div class="button-group">
+            <button class="btn btn-primary" onclick="revealMessage()">✨ Reveal my message</button>
+            <button class="btn btn-secondary" onclick="fireCloverConfetti()">🍀 Clover confetti</button>
+            <button class="btn btn-outline" onclick="openFeed()">🇮🇪 Live feed from Dublin</button>
           </div>
 
           <div class="envelope-wrapper">
-             <div class="envelope" id="envelope">
-                <div class="envelope-front"></div>
-                <div class="letter">
-                   <p class="type">
-                     <span id="typedText"></span><span class="cursor" aria-hidden="true"></span>
-                   </p>
-                </div>
-                <div class="lepre-bubble" id="lepreBubble"></div>
-                <div class="leprechaun" id="lepre">🧝‍♂️</div>
-             </div>
+            <div class="envelope" id="envelope">
+              <div class="envelope-front"></div>
+              <div class="letter">
+                <p class="typewriter-text" id="typewriterTarget"></p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <aside class="side">
-          <h3>💚 Sweet + a little chaotic</h3>
-          <p>I owe you approximately 9,000 smiles for all your thoughtful cards over the years. Consider this my “I’m a tech nerd, I tried” love letter. ☘️</p>
-          <div class="toast">
-            <strong>Irish toast:</strong><br/>
-            May your pockets be heavy and your heart be light, may good luck pursue you each morning and night. 🍻
+        <aside class="sidebar">
+          <h3>Irish Blessing <button onclick="newBlessing()" style="background:none; border:none; cursor:pointer; font-size:14px; opacity:0.6;">🔄</button></h3>
+          <div class="blessing-quote" id="blessingTarget">
+            "May your day be filled with blessings like the sun that lights the sky, and may you always have a friend to walk your road and stay by your side."
+          </div>
+
+          <div class="toast-container">
+            <button class="btn btn-secondary" id="toastBtn" onclick="revealToast()">grab a drink then press here when you're ready for a toast</button>
+            
+            <div class="toast-card" id="toastCard">
+              <strong style="color:var(--emerald-dark)">Irish Toast:</strong><br><br>
+              May your pockets be heavy and your heart be light,<br>
+              may good luck pursue you each morning and night. 🍻
+            </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <footer>Made with ☘️ + code for Aunt Trisha.</footer>
+    <footer>
+      Made with ☘️ + ❤️ by Kay Freeman
+    </footer>
   </main>
 
   <script>
     const CONFIG = {
-      auntName: "Aunt Trisha",
-      message: "Happy Birthday! You've always been such a wonderful part of my life. I'm lucky to have an aunt who is as kind, supportive, and full of love as you. I hope your day is filled with laughter, happiness, and all the things that make you smile. Wishing you an amazing year ahead!\n\nLove always,\nKay"
+      message: "Happy Birthday! You've always been such a wonderful part of my life. I'm lucky to have an aunt who is as kind, supportive, and full of love as you. I hope your day is filled with laughter, happiness, and all the things that make you smile. Wishing you an amazing year ahead!\n\nLove always,\nKay",
+      blessings: [
+        "May your day be filled with blessings like the sun that lights the sky, and may you always have a friend to walk your road and stay by your side.",
+        "May the road rise up to meet you. May the wind be always at your back. May the sun shine warm upon your face.",
+        "May you have the hindsight to know where you've been, the foresight to know where you are going, and the insight to know when you have gone too far.",
+        "May the roof above us never fall in, and may the friends gathered below it never fall out.",
+        "May you live as long as you want, and never want as long as you live."
+      ]
     };
 
-    const typedTextEl = document.getElementById("typedText");
-    const envelope = document.getElementById("envelope");
-    const btnReveal = document.getElementById("btnReveal");
+    // Initialize Page Elements
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
     
-    let typing = false;
-
-    function typewriter(text, speed=35){
-      if (typing) return;
-      typing = true;
-      typedTextEl.textContent = "";
-      let i = 0;
-      const tick = () => {
-        typedTextEl.textContent += text[i] ?? "";
-        i++;
-        if (i < text.length) setTimeout(tick, speed);
-        else typing = false;
-      };
-      tick();
-    }
-
-    btnReveal.addEventListener("click", () => {
-      envelope.classList.add("open");
-      spawnCloverConfetti(50);
-      // Delay typing until letter has moved up
-      setTimeout(() => typewriter(CONFIG.message), 800);
+    // Smooth title fade-in
+    window.addEventListener('load', () => {
+      document.getElementById('headerGroup').classList.add('visible');
+      // Fire confetti immediately on load
+      setTimeout(fireCloverConfetti, 500);
     });
 
-    // --- REMAINDER OF ORIGINAL LOGIC (Confetti, VR, Leprechaun) ---
-    function spawnCloverConfetti(count=70){
-      const clovers = ["🍀","☘️"];
-      for (let i=0; i<count; i++){
-        const s = document.createElement("span");
-        s.textContent = clovers[Math.floor(Math.random()*clovers.length)];
-        s.style.left = Math.random() * 100 + "vw";
-        s.style.fontSize = (14 + Math.random() * 18) + "px";
-        s.style.animationDuration = (3 + Math.random() * 2.5) + "s";
-        s.style.position = "absolute";
-        document.getElementById("confetti").appendChild(s);
-        setTimeout(() => s.remove(), 5000);
+    // --- Fixed Confetti Logic (Native CSS for reliability) ---
+    function fireCloverConfetti() {
+      const container = document.getElementById('confetti-container');
+      const symbols = ['🍀', '☘️'];
+      const count = 40;
+
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        
+        // Randomize placement and animation
+        const startX = Math.random() * 100;
+        const duration = 2 + Math.random() * 3;
+        const delay = Math.random() * 2;
+        const size = 16 + Math.random() * 20;
+
+        piece.style.left = startX + 'vw';
+        piece.style.animationDuration = duration + 's';
+        piece.style.animationDelay = delay + 's';
+        piece.style.fontSize = size + 'px';
+
+        container.appendChild(piece);
+
+        // Clean up piece after animation finishes
+        setTimeout(() => {
+          piece.remove();
+        }, (duration + delay) * 1000);
       }
     }
 
-    const bgm = document.getElementById("bgm");
-    const btnMusic = document.getElementById("btnMusic");
-    btnMusic.addEventListener("click", () => {
-      if (bgm.paused) { bgm.play(); btnMusic.textContent = "Pause"; }
-      else { bgm.pause(); btnMusic.textContent = "Play"; }
-    });
-
-    const vrMount = document.getElementById("vrMount");
-    let sceneInjected = false;
-    function injectScene(){
-      if (sceneInjected) return;
-      vrMount.innerHTML = `<a-scene embedded><a-sky id="sky" src="ireland-360-1.jpg"></a-sky></a-scene>`;
-      sceneInjected = true;
+    // --- Audio Controller ---
+    const audio = document.getElementById('celticAudio');
+    const musicBtn = document.getElementById('musicBtn');
+    function toggleAudio() {
+      if (audio.paused) {
+        audio.play().catch(() => {
+          alert("Click anywhere on the card first to enable audio!");
+        });
+        musicBtn.textContent = '🎻 Music: On';
+        musicBtn.classList.add('active');
+      } else {
+        audio.pause();
+        musicBtn.textContent = '🎻 Music: Off';
+        musicBtn.classList.remove('active');
+      }
     }
 
-    document.getElementById("btnEscape").addEventListener("click", () => {
-      document.getElementById("modalBackdrop").style.display = "flex";
-      injectScene();
-    });
+    // --- Blessing Generator ---
+    function newBlessing() {
+      const target = document.getElementById('blessingTarget');
+      target.style.opacity = 0;
+      setTimeout(() => {
+        const random = CONFIG.blessings[Math.floor(Math.random() * CONFIG.blessings.length)];
+        target.textContent = `"${random}"`;
+        target.style.opacity = 1;
+      }, 400);
+    }
 
-    document.getElementById("btnCloseModal").addEventListener("click", () => {
-      document.getElementById("modalBackdrop").style.display = "none";
-    });
+    // --- Message Reveal ---
+    let typing = false;
+    function revealMessage() {
+      if (typing) return;
+      
+      const envelope = document.getElementById('envelope');
+      const target = document.getElementById('typewriterTarget');
+      
+      // Open envelope and lift letter
+      envelope.classList.add('open');
+      
+      typing = true;
+      target.textContent = "";
+      let i = 0;
+      
+      function type() {
+        if (i < CONFIG.message.length) {
+          target.textContent += CONFIG.message.charAt(i);
+          i++;
+          setTimeout(type, 35);
+        } else { 
+          typing = false; 
+        }
+      }
+      
+      // Delay typing slightly for the animation to start
+      setTimeout(type, 800);
+      fireCloverConfetti();
+    }
 
-    const lepre = document.getElementById("lepre");
-    lepre.addEventListener("click", () => {
-      lepre.style.left = Math.random() * 80 + "%";
-      lepre.style.top = Math.random() * 80 + "%";
-      spawnCloverConfetti(30);
-    });
-    
-    document.getElementById("btnConfetti").addEventListener("click", () => spawnCloverConfetti(90));
-    document.getElementById("todayText").textContent = new Date().toLocaleDateString(undefined, { month: "long", day: "numeric" });
+    // --- Toast Reveal ---
+    function revealToast() {
+      document.getElementById('toastBtn').style.display = 'none';
+      document.getElementById('toastCard').style.display = 'block';
+      fireCloverConfetti();
+    }
+
+    // --- YouTube / Modal ---
+    const modal = document.getElementById('liveFeedModal');
+    let player;
+    function openFeed() {
+      modal.style.display = 'flex';
+      if (!window.YT) {
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(tag);
+      } else if (player) {
+        player.playVideo();
+      }
+    }
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360', width: '100%', videoId: '3nyPER2kzqk',
+        playerVars: { 'autoplay': 1, 'controls': 1 }
+      });
+    }
+    function closeFeed() {
+      modal.style.display = 'none';
+      if (player) player.pauseVideo();
+    }
+    window.onclick = (e) => { if (e.target == modal) closeFeed(); };
   </script>
 </body>
 </html>
