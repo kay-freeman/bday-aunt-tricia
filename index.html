@@ -204,9 +204,7 @@
       margin-top: 30px;
       position: relative;
       width: 100%;
-      height: auto;
-      min-height: 320px;
-      perspective: 1000px;
+      min-height: 250px;
     }
 
     .envelope {
@@ -214,23 +212,21 @@
       width: 100%;
       height: 220px;
       background: var(--env-dark);
-      margin-top: 50px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      transition: transform 0.4s ease;
+      transition: all 0.5s ease;
+      overflow: visible;
     }
 
     .envelope::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 0;
+      top: 0; left: 0;
+      width: 0; height: 0;
       border-left: 242px solid transparent;
       border-right: 242px solid transparent;
       border-top: 110px solid var(--env-color);
       transform-origin: top;
-      transition: transform 0.4s 0.2s ease;
+      transition: transform 0.4s 0.1s ease;
       z-index: 4;
     }
     
@@ -255,47 +251,48 @@
       bottom: 0;
       left: 5%;
       width: 90%;
-      height: 95%;
+      height: 90%;
       background: white;
-      padding: 25px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.15);
-      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), height 0.6s ease;
+      padding: 30px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.1);
       z-index: 2;
-      overflow: hidden;
-      border: 1px solid #eee;
+      opacity: 0;
+      transform: translateY(20px);
     }
 
     .envelope.open .letter {
-      transform: translateY(-100%);
+      position: relative;
+      opacity: 1;
+      transform: translateY(-120px);
       height: auto;
-      min-height: 350px;
-      padding-bottom: 60px; /* Space for close button */
+      min-height: 200px;
+      margin-bottom: -100px;
+      z-index: 5;
     }
 
     .typewriter-text {
       font-family: 'Caveat', cursive;
-      font-size: 24px;
-      line-height: 1.4;
+      font-size: 26px;
+      line-height: 1.5;
       color: var(--bg-dark);
       margin: 0;
       white-space: pre-wrap;
     }
 
     .btn-close-letter {
-      position: absolute;
-      bottom: 15px;
-      right: 15px;
+      margin-top: 30px;
       background: #f8f8f8;
       border: 1px solid #ddd;
-      padding: 6px 12px;
+      padding: 8px 16px;
       border-radius: 8px;
-      font-size: 12px;
+      font-size: 13px;
       font-family: 'Quicksand', sans-serif;
       cursor: pointer;
       display: none;
       transition: background 0.2s;
     }
-    .envelope.open .btn-close-letter { display: block; }
+    .envelope.open .btn-close-letter { display: inline-block; }
     .btn-close-letter:hover { background: #eee; }
 
     .sidebar {
@@ -324,16 +321,6 @@
       margin-bottom: 40px;
       min-height: 120px;
       transition: opacity 0.4s;
-    }
-
-    .toast-container { margin-top: 20px; }
-
-    #toastBtn {
-      width: 100%;
-      text-align: center;
-      line-height: 1.4;
-      padding: 18px;
-      font-size: 14px;
     }
 
     .toast-card {
@@ -397,7 +384,7 @@
   <div class="modal-overlay" id="liveFeedModal">
     <div class="modal-content">
       <div class="modal-header" style="background:#111; color:#fff; padding:15px 20px; display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-weight: 700; font-family: 'Cinzel', serif;">🇮🇪 Live from Dublin, Ireland</span>
+        <span style="font-weight: 700; font-family: 'Cinzel', serif;">🇮🇪 Live from Dublin</span>
         <button onclick="closeFeed()" style="background:none; border:none; color:white; cursor:pointer; font-size:24px;">&times;</button>
       </div>
       <div class="video-wrapper">
@@ -428,7 +415,7 @@
           </div>
 
           <p class="welcome-text">
-            You hand-paint the prettiest cards... I’m not a painter, so I made you one with code.
+            You hand-paint the prettiest cards... I made you one with code.
           </p>
 
           <div class="button-group">
@@ -455,8 +442,7 @@
           </div>
 
           <div class="toast-container">
-            <button class="btn btn-secondary" id="toastBtn" onclick="revealToast()">grab a drink then press here when you're ready for a toast</button>
-            
+            <button class="btn btn-secondary" id="toastBtn" onclick="revealToast()" style="width:100%">ready for a toast?</button>
             <div class="toast-card" id="toastCard">
               <strong style="color:var(--emerald-dark)">Irish Toast:</strong><br><br>
               May your pockets be heavy and your heart be light,<br>
@@ -468,79 +454,51 @@
     </section>
 
     <footer>
-      Made with ☘️ + ❤️ by Kay Freeman
+      Made with ☘️ + ❤️ by Kay Thomas
     </footer>
   </main>
 
   <script>
     const CONFIG = {
-      message: "Happy Birthday! You've always been such a wonderful part of my life. I'm lucky to have an aunt who is as kind, supportive, and full of love as you. I hope your day is filled with laughter, happiness, and all the things that make you smile. Wishing you an amazing year ahead!\n\nLove always,\nKay",
+      message: "Happy Birthday!\n\nYou've always been such a wonderful part of my life. I'm lucky to have an aunt who is as kind, supportive, and full of love as you.\n\nI hope your day is filled with laughter, happiness, and all the things that make you smile. Wishing you an amazing year ahead!\n\nLove always,\nKay",
       blessings: [
         "May your day be filled with blessings like the sun that lights the sky, and may you always have a friend to walk your road and stay by your side.",
         "May the road rise up to meet you. May the wind be always at your back. May the sun shine warm upon your face.",
-        "May you have the hindsight to know where you've been, the foresight to know where you are going, and the insight to know when you have gone too far.",
-        "May the roof above us never fall in, and may the friends gathered below it never fall out.",
         "May you live as long as you want, and never want as long as you live."
       ]
     };
 
     document.getElementById('current-date').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
-    
-    window.addEventListener('load', () => {
-      document.getElementById('headerGroup').classList.add('visible');
-      setTimeout(fireCloverConfetti, 500);
-    });
+    window.addEventListener('load', () => { document.getElementById('headerGroup').classList.add('visible'); });
 
     function fireCloverConfetti() {
       const container = document.getElementById('confetti-container');
-      const symbols = ['🍀', '☘️'];
-      const count = 40;
-
+      const count = 30;
       for (let i = 0; i < count; i++) {
         const piece = document.createElement('div');
         piece.className = 'confetti-piece';
-        piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-        
-        const startX = Math.random() * 100;
+        piece.textContent = ['🍀', '☘️'][Math.floor(Math.random() * 2)];
+        piece.style.left = Math.random() * 100 + 'vw';
         const duration = 2 + Math.random() * 3;
-        const delay = Math.random() * 2;
-        const size = 16 + Math.random() * 20;
-
-        piece.style.left = startX + 'vw';
         piece.style.animationDuration = duration + 's';
-        piece.style.animationDelay = delay + 's';
-        piece.style.fontSize = size + 'px';
-
+        piece.style.fontSize = 16 + Math.random() * 20 + 'px';
         container.appendChild(piece);
-
-        setTimeout(() => {
-          piece.remove();
-        }, (duration + delay) * 1000);
+        setTimeout(() => piece.remove(), duration * 1000);
       }
     }
 
     const audio = document.getElementById('celticAudio');
     const musicBtn = document.getElementById('musicBtn');
     function toggleAudio() {
-      if (audio.paused) {
-        audio.play().catch(() => {
-          alert("Click anywhere on the card first to enable audio!");
-        });
-        musicBtn.textContent = '🎻 Music: On';
-        musicBtn.classList.add('active');
-      } else {
-        audio.pause();
-        musicBtn.textContent = '🎻 Music: Off';
-        musicBtn.classList.remove('active');
-      }
+      if (audio.paused) { audio.play(); musicBtn.textContent = '🎻 Music: On'; musicBtn.classList.add('active'); }
+      else { audio.pause(); musicBtn.textContent = '🎻 Music: Off'; musicBtn.classList.remove('active'); }
     }
 
     function newBlessing() {
       const target = document.getElementById('blessingTarget');
       target.style.opacity = 0;
       setTimeout(() => {
-        const random = CONFIG.blessings[Math.floor(Math.random() * CONFIG.blessings.length)];
-        target.textContent = `"${random}"`;
+        target.textContent = `"${CONFIG.blessings[Math.floor(Math.random() * CONFIG.blessings.length)]}"`;
         target.style.opacity = 1;
       }, 400);
     }
@@ -551,40 +509,24 @@
     function revealMessage() {
       const envelope = document.getElementById('envelope');
       const target = document.getElementById('typewriterTarget');
-      
       envelope.classList.add('open');
-      
       if (typedOnce) return;
-
       typing = true;
       target.textContent = "";
       let i = 0;
-      
       function type() {
         if (i < CONFIG.message.length) {
           target.textContent += CONFIG.message.charAt(i);
           i++;
-          setTimeout(type, 35);
-        } else { 
-          typing = false; 
-          typedOnce = true;
-        }
+          setTimeout(type, 60); // Slower typing speed
+        } else { typing = false; typedOnce = true; }
       }
-      
-      setTimeout(type, 1000);
+      setTimeout(type, 800);
       fireCloverConfetti();
     }
 
-    function hideMessage() {
-      const envelope = document.getElementById('envelope');
-      envelope.classList.remove('open');
-    }
-
-    function revealToast() {
-      document.getElementById('toastBtn').style.display = 'none';
-      document.getElementById('toastCard').style.display = 'block';
-      fireCloverConfetti();
-    }
+    function hideMessage() { document.getElementById('envelope').classList.remove('open'); }
+    function revealToast() { document.getElementById('toastBtn').style.display = 'none'; document.getElementById('toastCard').style.display = 'block'; fireCloverConfetti(); }
 
     const modal = document.getElementById('liveFeedModal');
     let player;
@@ -594,21 +536,12 @@
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         document.body.appendChild(tag);
-      } else if (player) {
-        player.playVideo();
-      }
+      } else if (player) { player.playVideo(); }
     }
     function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        height: '360', width: '100%', videoId: '3nyPER2kzqk',
-        playerVars: { 'autoplay': 1, 'controls': 1 }
-      });
+      player = new YT.Player('player', { height: '360', width: '100%', videoId: '3nyPER2kzqk', playerVars: { 'autoplay': 1 } });
     }
-    function closeFeed() {
-      modal.style.display = 'none';
-      if (player) player.pauseVideo();
-    }
-    window.onclick = (e) => { if (e.target == modal) closeFeed(); };
+    function closeFeed() { modal.style.display = 'none'; if (player) player.pauseVideo(); }
   </script>
 </body>
 </html>
