@@ -39,22 +39,20 @@ flex-direction:column;
 min-height:100vh;
 }
 
-/* FLOATING SHAMROCKS */
-
+/* floating shamrocks */
 .shamrock{
 position:fixed;
-font-size:22px;
+font-size:20px;
 opacity:.15;
 animation:floatShamrock linear infinite;
 pointer-events:none;
+z-index:1;
 }
 
 @keyframes floatShamrock{
 0%{transform:translateY(100vh) rotate(0deg);}
 100%{transform:translateY(-20vh) rotate(360deg);}
 }
-
-/* BACKGROUND */
 
 .bg-overlay{
 position:fixed;
@@ -74,18 +72,57 @@ z-index:10;
 width:100%;
 }
 
-/* BUTTON HOVER IMPROVEMENT */
+.banner{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+margin-bottom:30px;
+flex-wrap:wrap;
+}
 
-button{
+.badge{
+display:inline-flex;
+align-items:center;
+gap:10px;
+padding:10px 18px;
+border:1px solid rgba(255,255,255,0.15);
+border-radius:50px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+color:white;
+font-weight:600;
+font-size:14px;
+}
+
+.header-controls{
+display:flex;
+gap:12px;
+align-items:center;
+}
+
+.btn-icon{
+background:rgba(255,255,255,0.1);
+border:1px solid rgba(255,255,255,0.2);
+color:white;
+padding:8px 16px;
+border-radius:12px;
+cursor:pointer;
+font-size:13px;
+font-weight:600;
 transition:all .2s ease;
 }
 
-button:hover{
-transform:translateY(-3px) scale(1.03);
-box-shadow:0 10px 25px rgba(0,0,0,.2);
+.btn-icon:hover{
+background:rgba(255,255,255,0.2);
+transform:translateY(-2px) scale(1.03);
+box-shadow:0 8px 18px rgba(0,0,0,.2);
 }
 
-/* CARD */
+.btn-icon.active{
+background:var(--emerald-light);
+border-color:var(--emerald-light);
+}
 
 .card{
 position:relative;
@@ -108,6 +145,7 @@ min-height:600px;
 
 .content-area{
 padding:60px 50px;
+position:relative;
 }
 
 .title-group{
@@ -126,6 +164,7 @@ font-family:'Cinzel',serif;
 margin:0;
 color:var(--bg-dark);
 font-size:clamp(32px,5vw,54px);
+line-height:1.1;
 }
 
 .irish-sub{
@@ -135,21 +174,51 @@ color:var(--emerald-dark);
 margin-top:10px;
 }
 
-/* CANDLE */
-
+/* birthday candle */
 .candle{
 font-size:36px;
-margin-top:10px;
+margin-top:12px;
 cursor:pointer;
 display:inline-block;
 transition:transform .2s;
 }
 
-.candle:hover{
-transform:scale(1.2);
+.candle:hover{transform:scale(1.2);}
+
+.welcome-text{
+font-family:'Playfair Display',serif;
+font-style:italic;
+font-size:18px;
+margin:25px 0;
+color:#444;
 }
 
-/* MESSAGE BOX */
+.button-group{
+display:flex;
+gap:12px;
+margin:30px 0;
+flex-wrap:wrap;
+}
+
+.btn{
+font-family:'Quicksand',sans-serif;
+padding:14px 24px;
+border-radius:15px;
+border:none;
+font-weight:700;
+cursor:pointer;
+transition:all .2s ease;
+font-size:14px;
+}
+
+.btn-primary{background:var(--emerald-light);color:white;}
+.btn-secondary{background:var(--gold-deep);color:var(--bg-dark);}
+.btn-outline{background:transparent;border:2px solid var(--emerald-dark);color:var(--emerald-dark);}
+
+.btn:hover{
+transform:translateY(-3px) scale(1.03);
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
 
 .message-reveal-box{
 margin-top:30px;
@@ -162,6 +231,7 @@ box-shadow:inset 0 2px 10px rgba(0,0,0,.02);
 transition:box-shadow .6s ease;
 }
 
+/* glow when message revealed */
 .message-reveal-box.glow{
 box-shadow:0 0 25px var(--accent-glow);
 }
@@ -170,16 +240,22 @@ box-shadow:0 0 25px var(--accent-glow);
 font-family:'Playfair Display',serif;
 font-size:20px;
 line-height:1.6;
+color:var(--bg-dark);
+margin:0;
+white-space:pre-wrap;
 }
 
+/* signature reveal */
 .signature{
-margin-top:25px;
+margin-top:20px;
 opacity:0;
 font-family:'Playfair Display',serif;
 font-style:italic;
 font-size:18px;
 transition:opacity 1.5s ease;
 }
+
+.signature.visible{opacity:1;}
 
 .sidebar{
 background:linear-gradient(to bottom,#fdfbfb 0%,#ebedee 100%);
@@ -190,12 +266,69 @@ border-left:1px solid #ddd;
 .blessing-quote{
 font-family:'Playfair Display',serif;
 font-style:italic;
+color:#555;
 line-height:1.8;
 border-left:4px solid var(--gold-deep);
 padding-left:20px;
 margin-bottom:40px;
 min-height:120px;
 transition:opacity .4s;
+}
+
+.toast-container{margin-top:20px;}
+
+#toastBtn{
+width:100%;
+text-align:center;
+line-height:1.4;
+padding:18px;
+font-size:14px;
+}
+
+.toast-card{
+background:white;
+border-radius:15px;
+padding:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.05);
+display:none;
+animation:fadeInUp .6s ease-out forwards;
+}
+
+@keyframes fadeInUp{
+from{opacity:0;transform:translateY(15px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+.modal-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.92);
+display:none;
+z-index:1000;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.modal-content{
+width:100%;
+max-width:960px;
+background:#000;
+border-radius:20px;
+overflow:hidden;
+}
+
+.video-wrapper{
+position:relative;
+padding-bottom:56.25%;
+height:0;
+}
+
+.video-wrapper iframe{
+position:absolute;
+top:0;left:0;
+width:100%;height:100%;
+border:none;
 }
 
 footer{
@@ -212,9 +345,33 @@ font-size:13px;
 
 <div class="bg-overlay"></div>
 
+<div class="modal-overlay" id="liveFeedModal">
+<div class="modal-content">
+<div style="background:#111;color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;">
+<span style="font-weight:700;font-family:'Cinzel',serif;">🇮🇪 Live from Dublin</span>
+<button onclick="closeFeed()" style="background:none;border:none;color:white;font-size:24px;">&times;</button>
+</div>
+<div class="video-wrapper"><div id="player"></div></div>
+</div>
+</div>
+
 <main>
 
+<div class="banner">
+<div class="badge">☘️ Special Delivery</div>
+<div class="badge">📅 <span id="current-date"></span></div>
+
+<div class="header-controls">
+<button class="btn-icon" id="musicBtn" onclick="toggleAudio()">🎻 Music: Off</button>
+</div>
+</div>
+
+<audio id="celticAudio" loop>
+<source src="celtic.mp3" type="audio/mpeg">
+</audio>
+
 <section class="card">
+
 <div class="card-inner">
 
 <div class="content-area">
@@ -229,23 +386,25 @@ font-size:13px;
 
 </div>
 
-<p>
-You hand-paint the prettiest cards...  
-I’m not a painter, so I made you one with code.
+<p class="welcome-text">
+You hand-paint the prettiest cards... I’m not a painter, so I made you one with code.
 </p>
 
-<div style="margin-top:20px;">
-<button onclick="revealMessage()">✨ Reveal my message</button>
-<button onclick="fireCloverConfetti()">🍀 Clover confetti</button>
+<div class="button-group">
+
+<button class="btn btn-primary" onclick="revealMessage()">✨ Reveal my message</button>
+
+<button class="btn btn-secondary" onclick="fireCloverConfetti()">🍀 Clover confetti</button>
+
+<button class="btn btn-outline" onclick="openFeed()">🇮🇪 Live feed from Dublin</button>
+
 </div>
 
 <div class="message-reveal-box" id="messageBox">
 
 <p class="typewriter-text" id="typewriterTarget"></p>
 
-<div class="signature" id="signature">
-— Love always, Kay 💜
-</div>
+<div class="signature" id="signature">— Love always, Kay 💜</div>
 
 </div>
 
@@ -253,13 +412,23 @@ I’m not a painter, so I made you one with code.
 
 <aside class="sidebar">
 
-<h3>Irish Blessing</h3>
+<h3>Irish Blessing <button onclick="newBlessing()" style="background:none;border:none;font-size:14px;">🔄</button></h3>
 
 <div class="blessing-quote" id="blessingTarget">
 "May your day be filled with blessings like the sun that lights the sky..."
 </div>
 
-<button onclick="newBlessing()">🔄 New Blessing</button>
+<div class="toast-container">
+
+<button class="btn btn-secondary" id="toastBtn" onclick="revealToast()">grab a drink then press here when you're ready for a toast</button>
+
+<div class="toast-card" id="toastCard">
+<strong style="color:var(--emerald-dark)">Irish Toast:</strong><br><br>
+May your pockets be heavy and your heart be light,<br>
+may good luck pursue you each morning and night. 🍻
+</div>
+
+</div>
 
 </aside>
 
@@ -274,91 +443,111 @@ Made with ☘️ + ❤️ by Kay Thomas
 
 <script>
 
-/* FLOATING SHAMROCKS */
+document.getElementById('current-date').textContent =
+new Date().toLocaleDateString(undefined,{month:'long',day:'numeric'});
+
+window.addEventListener('load',()=>{
+document.getElementById('headerGroup').classList.add('visible');
+setTimeout(fireCloverConfetti,500);
+});
+
+/* floating shamrocks */
 
 function spawnShamrock(){
 const shamrock=document.createElement("div");
 shamrock.className="shamrock";
 shamrock.textContent="🍀";
 shamrock.style.left=Math.random()*100+"vw";
-shamrock.style.animationDuration=(8+Math.random()*10)+"s";
+shamrock.style.animationDuration=(10+Math.random()*8)+"s";
 document.body.appendChild(shamrock);
 setTimeout(()=>shamrock.remove(),18000);
 }
 
-setInterval(spawnShamrock,1200);
+setInterval(spawnShamrock,1400);
 
-/* CONFETTI */
+/* candle interaction */
+
+document.getElementById("candle").onclick=()=>{
+document.getElementById("candle").textContent="✨";
+fireCloverConfetti();
+setTimeout(()=>{
+document.getElementById("candle").textContent="🕯️";
+},1500);
+};
+
+const CONFIG={
+message:`Happy birthday!
+
+Thank you for every hand-painted card you’ve ever made me.
+
+I can’t paint like you… but I CAN code like a goblin with a mission.
+
+Hope you enjoy your day!
+
+Love you lots ❤️`,
+blessings:[
+"May the road rise up to meet you.",
+"May the wind be always at your back.",
+"May the sun shine warm upon your face.",
+"May good luck pursue you each morning and night.",
+"May your pockets be heavy and your heart be light."
+]
+};
 
 function fireCloverConfetti(){
-confetti({
-particleCount:120,
-spread:70,
-origin:{y:.6}
-});
+confetti({particleCount:120,spread:70,origin:{y:.6}});
 }
 
-/* BLESSINGS */
+const audio=document.getElementById('celticAudio');
+const musicBtn=document.getElementById('musicBtn');
 
-const blessings=[
-"May the road rise up to meet you.",
-"May your pockets be heavy and your heart be light.",
-"May good luck pursue you each morning and night.",
-"May the sun shine warm upon your face.",
-"May friends gather around you wherever you go."
-];
+function toggleAudio(){
+if(audio.paused){
+audio.play().catch(()=>alert("Click page first to enable audio."));
+musicBtn.textContent='🎻 Music: On';
+musicBtn.classList.add('active');
+}else{
+audio.pause();
+musicBtn.textContent='🎻 Music: Off';
+musicBtn.classList.remove('active');
+}
+}
 
 function newBlessing(){
 const target=document.getElementById("blessingTarget");
 target.style.opacity=0;
-
 setTimeout(()=>{
-target.textContent=blessings[Math.floor(Math.random()*blessings.length)];
+target.textContent=CONFIG.blessings[Math.floor(Math.random()*CONFIG.blessings.length)];
 target.style.opacity=1;
 },400);
 }
-
-/* MESSAGE + SIGNATURE */
-
-const message=`Happy birthday!
-
-Thank you for every hand-painted card you’ve ever made me.
-
-I can’t paint like you…
-but I CAN code like a goblin with a mission.
-
-Hope you enjoy your day!
-
-Love you lots ❤️`;
 
 let typing=false;
 
 function revealMessage(){
 
-if(typing) return;
+if(typing)return;
 typing=true;
 
 const target=document.getElementById("typewriterTarget");
 const box=document.getElementById("messageBox");
+const signature=document.getElementById("signature");
 
 target.textContent="";
+signature.classList.remove("visible");
 box.classList.add("glow");
 
 let i=0;
 
 function type(){
-
-if(i<message.length){
-target.textContent+=message.charAt(i);
+if(i<CONFIG.message.length){
+target.textContent+=CONFIG.message.charAt(i);
 i++;
 setTimeout(type,35);
-}
-
-else{
+}else{
 typing=false;
-revealSignature();
+signature.classList.add("visible");
 }
-
 }
 
 type();
@@ -366,31 +555,36 @@ fireCloverConfetti();
 
 }
 
-function revealSignature(){
-const sig=document.getElementById("signature");
-sig.style.opacity=1;
+function revealToast(){
+document.getElementById("toastBtn").style.display="none";
+document.getElementById("toastCard").style.display="block";
+fireCloverConfetti();
 }
 
-/* CANDLE */
+const modal=document.getElementById("liveFeedModal");
+let player;
 
-document.getElementById("candle").onclick=()=>{
+function openFeed(){
+modal.style.display="flex";
+if(!window.YT){
+const tag=document.createElement("script");
+tag.src="https://www.youtube.com/iframe_api";
+document.body.appendChild(tag);
+}else if(player){
+player.playVideo();
+}
+}
 
-document.getElementById("candle").textContent="✨";
+function onYouTubeIframeAPIReady(){
+player=new YT.Player('player',{height:'360',width:'100%',videoId:'3nyPER2kzqk',playerVars:{autoplay:1}});
+}
 
-fireCloverConfetti();
+function closeFeed(){
+modal.style.display="none";
+if(player)player.pauseVideo();
+}
 
-setTimeout(()=>{
-alert("Your birthday wish has been sent! 🍀");
-},400);
-
-};
-
-/* TITLE FADE */
-
-window.addEventListener('load',()=>{
-document.getElementById('headerGroup').classList.add('visible');
-setTimeout(fireCloverConfetti,500);
-});
+window.onclick=(e)=>{if(e.target==modal)closeFeed();};
 
 </script>
 
