@@ -46,7 +46,6 @@
       z-index: 0;
     }
 
-    /* CSS Confetti Styles */
     .confetti-container {
       position: fixed;
       top: 0;
@@ -205,7 +204,8 @@
       margin-top: 30px;
       position: relative;
       width: 100%;
-      height: 320px;
+      height: auto;
+      min-height: 320px;
       perspective: 1000px;
     }
 
@@ -226,7 +226,7 @@
       left: 0;
       width: 0;
       height: 0;
-      border-left: 242px solid transparent; /* Half of typical content width */
+      border-left: 242px solid transparent;
       border-right: 242px solid transparent;
       border-top: 110px solid var(--env-color);
       transform-origin: top;
@@ -234,8 +234,7 @@
       z-index: 4;
     }
     
-    /* Responsive adjustment for the triangle flap */
-    @media (max-width: 1100px) { .envelope::before { border-left-width: 20vw; border-right-width: 20vw; } }
+    @media (max-width: 1100px) { .envelope::before { border-left-width: 40vw; border-right-width: 40vw; } }
     @media (min-width: 1101px) { .envelope::before { border-left-width: 242px; border-right-width: 242px; } }
 
     .envelope.open::before {
@@ -259,16 +258,18 @@
       height: 95%;
       background: white;
       padding: 25px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      transition: transform 0.4s 0.4s ease, height 0.4s 0.4s ease;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+      transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), height 0.6s ease;
       z-index: 2;
-      overflow-y: auto;
+      overflow: hidden;
       border: 1px solid #eee;
     }
 
     .envelope.open .letter {
-      transform: translateY(-130px);
-      height: 280px;
+      transform: translateY(-100%);
+      height: auto;
+      min-height: 350px;
+      padding-bottom: 60px; /* Space for close button */
     }
 
     .typewriter-text {
@@ -279,6 +280,23 @@
       margin: 0;
       white-space: pre-wrap;
     }
+
+    .btn-close-letter {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      background: #f8f8f8;
+      border: 1px solid #ddd;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: 'Quicksand', sans-serif;
+      cursor: pointer;
+      display: none;
+      transition: background 0.2s;
+    }
+    .envelope.open .btn-close-letter { display: block; }
+    .btn-close-letter:hover { background: #eee; }
 
     .sidebar {
       background: linear-gradient(to bottom, #fdfbfb 0%, #ebedee 100%);
@@ -422,8 +440,9 @@
           <div class="envelope-wrapper">
             <div class="envelope" id="envelope">
               <div class="envelope-front"></div>
-              <div class="letter">
+              <div class="letter" id="letter">
                 <p class="typewriter-text" id="typewriterTarget"></p>
+                <button class="btn-close-letter" onclick="hideMessage()">Hide Card ✖</button>
               </div>
             </div>
           </div>
@@ -465,17 +484,13 @@
       ]
     };
 
-    // Initialize Page Elements
     document.getElementById('current-date').textContent = new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
     
-    // Smooth title fade-in
     window.addEventListener('load', () => {
       document.getElementById('headerGroup').classList.add('visible');
-      // Fire confetti immediately on load
       setTimeout(fireCloverConfetti, 500);
     });
 
-    // --- Fixed Confetti Logic (Native CSS for reliability) ---
     function fireCloverConfetti() {
       const container = document.getElementById('confetti-container');
       const symbols = ['🍀', '☘️'];
@@ -486,7 +501,6 @@
         piece.className = 'confetti-piece';
         piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
         
-        // Randomize placement and animation
         const startX = Math.random() * 100;
         const duration = 2 + Math.random() * 3;
         const delay = Math.random() * 2;
@@ -499,14 +513,12 @@
 
         container.appendChild(piece);
 
-        // Clean up piece after animation finishes
         setTimeout(() => {
           piece.remove();
         }, (duration + delay) * 1000);
       }
     }
 
-    // --- Audio Controller ---
     const audio = document.getElementById('celticAudio');
     const musicBtn = document.getElementById('musicBtn');
     function toggleAudio() {
@@ -523,7 +535,6 @@
       }
     }
 
-    // --- Blessing Generator ---
     function newBlessing() {
       const target = document.getElementById('blessingTarget');
       target.style.opacity = 0;
@@ -534,17 +545,17 @@
       }, 400);
     }
 
-    // --- Message Reveal ---
     let typing = false;
+    let typedOnce = false;
+
     function revealMessage() {
-      if (typing) return;
-      
       const envelope = document.getElementById('envelope');
       const target = document.getElementById('typewriterTarget');
       
-      // Open envelope and lift letter
       envelope.classList.add('open');
       
+      if (typedOnce) return;
+
       typing = true;
       target.textContent = "";
       let i = 0;
@@ -556,22 +567,25 @@
           setTimeout(type, 35);
         } else { 
           typing = false; 
+          typedOnce = true;
         }
       }
       
-      // Delay typing slightly for the animation to start
-      setTimeout(type, 800);
+      setTimeout(type, 1000);
       fireCloverConfetti();
     }
 
-    // --- Toast Reveal ---
+    function hideMessage() {
+      const envelope = document.getElementById('envelope');
+      envelope.classList.remove('open');
+    }
+
     function revealToast() {
       document.getElementById('toastBtn').style.display = 'none';
       document.getElementById('toastCard').style.display = 'block';
       fireCloverConfetti();
     }
 
-    // --- YouTube / Modal ---
     const modal = document.getElementById('liveFeedModal');
     let player;
     function openFeed() {
